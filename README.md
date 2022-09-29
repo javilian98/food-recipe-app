@@ -2,7 +2,20 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
-First, run the development server:
+First, Go to your .env.example file:
+```
+NEXT_PUBLIC_SPOONACULAR_API_SECRET_KEY=ENTER_YOUR_OWN_SECRET_KEY
+```
+Replace ENTER_YOUR_OWN_SECRET_KEY with your own spoonacular api key.
+
+Rename the file .env.example to .env.local
+
+Secondly, install the dependencies:
+```bash
+npm install
+```
+
+Lastly, run the development server:
 
 ```bash
 npm run dev
