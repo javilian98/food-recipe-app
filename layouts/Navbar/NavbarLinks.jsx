@@ -6,31 +6,31 @@ import { ThemeIcon, UnstyledButton, Group, Text } from '@mantine/core';
 
 function NavbarLink({ icon, color, label, link }) {
     return (
-        <Link href={link}>
-        <a>
-      <UnstyledButton
-        sx={(theme) => ({
-          display: 'block',
-          width: '100%',
-          padding: theme.spacing.sm,
-          borderRadius: theme.radius.sm,
-          color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
-  
-          '&:hover': {
-            backgroundColor:
-              theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
-          },
-        })}
-      >
-        <Group>
-          <ThemeIcon color={color} variant="light">
-            {icon}
-          </ThemeIcon>
-  
-          <Text size="md">{label}</Text>
-        </Group>
-      </UnstyledButton>
-      </a>
+      <Link href={link}>
+        <a> 
+          <UnstyledButton
+            sx={(theme) => ({
+              display: 'block',
+              width: '100%',
+              padding: theme.spacing.sm,
+              borderRadius: theme.radius.sm,
+              color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+      
+              '&:hover': {
+                backgroundColor:
+                  theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
+              },
+            })}
+          >
+            <Group>
+              <ThemeIcon color={color} variant="light">
+                {icon}
+              </ThemeIcon> 
+      
+              <Text size="md">{label}</Text>
+            </Group>
+          </UnstyledButton>
+        </a>
       </Link>
     );
   }
