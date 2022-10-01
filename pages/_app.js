@@ -1,6 +1,7 @@
 import '../styles/globals.css'
 
 import { useState } from 'react';
+import { useRouter } from 'next/router'
 import {
   AppShell,
   Navbar,
@@ -20,6 +21,7 @@ import NavbarLinks from '../layouts/Navbar/NavbarLinks';
 import UserButton from '../components/users/UserButton/UserButton';
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter()
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
   return (
@@ -38,19 +40,27 @@ function MyApp({ Component, pageProps }) {
         navbarOffsetBreakpoint="sm"
         asideOffsetBreakpoint="sm"
         navbar={
-          <Navbar p="md" hiddenBreakpoint="sm" hidden={!opened} width={{ sm: 200, lg: 300 }}>
-            <Navbar.Section grow mt="xs">
-              <NavbarLinks />
-            </Navbar.Section>
-          </Navbar>
-        }
+          (router.pathname === '/login' || router.pathname === '/register') 
+            ? null 
+            : (
+              <Navbar p="md" hiddenBreakpoint="sm" hidden={!opened} width={{ sm: 200, lg: 300 }}>
+                <Navbar.Section grow mt="xs">
+                  <NavbarLinks />
+                </Navbar.Section>
+              </Navbar>
+            )
+        }  
         aside={
-          <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
-            <Aside p="md" hiddenBreakpoint="sm" width={{ sm: 200, lg: 400 }}>
-              <Text>Application sidebar</Text>
-            </Aside>
-          </MediaQuery>
-        }
+          (router.pathname === '/login' || router.pathname === '/register') 
+            ? null 
+            : (
+              <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
+                <Aside p="md" hiddenBreakpoint="sm" width={{ sm: 200, lg: 400 }}>
+                  <Text>Application sidebar</Text>
+                </Aside>
+              </MediaQuery>
+            )
+        } 
         // footer={
         //   <Footer height={60} p="md">
         //     Application footer

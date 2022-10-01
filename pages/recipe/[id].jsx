@@ -3,6 +3,9 @@ import { useRouter } from 'next/router'
 import { Card, Image, Overlay, Title, Text, Group, ThemeIcon, Space, Container, Grid, ActionIcon, Center, Accordion, Avatar } from '@mantine/core'
 import { IconAlarm, IconSoup, IconCircleMinus, IconCirclePlus, IconCheck, IconHeart, IconConfetti } from '@tabler/icons';
 
+import { API_URL, RECIPES } from '../../constants/constants'
+import { fetchData } from '../../util/helper'
+
 function Recipe() {
 
     const router = useRouter()
@@ -16,7 +19,7 @@ function Recipe() {
     }, [router.query.id]) 
 
     const getDetails = async () => {
-        const api = await fetch(`https://api.spoonacular.com/recipes/${router.query.id}/information?apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API_SECRET_KEY}`)
+        const api = await fetchData(`${API_URL}/${RECIPES}/${router.query.id}/information`)
         const data = await api.json()
         console.log(data)
         setDetails(data)
@@ -24,7 +27,7 @@ function Recipe() {
 
     return (
         <div className="recipe">
-            <Card p="lg" radius="lg" withBorder>
+            <Card radius="lg">
                 <Overlay opacity={0.3} color="#000" zIndex={1} />
                 <Card.Section sx={{ position: 'relative' }}>
                     <Image

@@ -1,10 +1,13 @@
 
 import React from 'react';
+import Link from 'next/link';
 import { IconMeat, IconHeart, IconMessages, IconStars } from '@tabler/icons';
 import { ThemeIcon, UnstyledButton, Group, Text } from '@mantine/core'; 
 
-function NavbarLink({ icon, color, label }) {
+function NavbarLink({ icon, color, label, link }) {
     return (
+        <Link href={link}>
+        <a>
       <UnstyledButton
         sx={(theme) => ({
           display: 'block',
@@ -27,14 +30,16 @@ function NavbarLink({ icon, color, label }) {
           <Text size="md">{label}</Text>
         </Group>
       </UnstyledButton>
+      </a>
+      </Link>
     );
   }
   
   const data = [
-    { icon: <IconStars size={20} />, color: 'blue', label: 'Featured' },
-    { icon: <IconMeat size={20} />, color: 'green', label: 'My Recipes' },
-    { icon: <IconHeart size={20} />, color: 'red', label: 'Favourites' },
-    { icon: <IconMessages size={20} />, color: 'violet', label: 'Diet History' },
+    { icon: <IconStars size={20} />, color: 'blue', label: 'Featured', link: '/' },
+    // { icon: <IconMeat size={20} />, color: 'green', label: 'My Recipes' },
+    { icon: <IconHeart size={20} />, color: 'red', label: 'Favourites', link: '/favourites' },
+    { icon: <IconMessages size={20} />, color: 'violet', label: 'Diet History', link: '/' },
   ];
 
 export default function NavbarLinks() {
