@@ -23,9 +23,6 @@ export default function Home() {
     const localStorageData = JSON.parse(localStorage.getItem('featuredRecipes'))
     const now = new Date()
 
-    console.log(now.getTime())
-    console.log(localStorageData.expiry);
-
     if (localStorageData && now.getTime() < localStorageData.expiry) { 
       featuredData = JSON.parse(localStorageData.recipes) 
     } 
