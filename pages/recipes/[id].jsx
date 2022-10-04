@@ -6,23 +6,53 @@ import { IconAlarm, IconSoup, IconCircleMinus, IconCirclePlus, IconCheck, IconHe
 import { API_URL, RECIPES } from '../../constants/constants'
 import { fetchData } from '../../util/helper'
 
+import { useFavouriteRecipeStore } from '../../stores/store'
+
 function Recipe() {
 
     const router = useRouter()
 
     const [details, setDetails] = useState()
-    const [active, setActive] = useState(1);
+    const [toggleFavourite, setToggleFavourite] = useState(false)
+     
+    const favouriteRecipes = useFavouriteRecipeStore(state => state.favouriteRecipes)
+    const addFavouriteRecipe = useFavouriteRecipeStore(state => state.addFavouriteRecipe)
+    const removeFavouriteRecipe = useFavouriteRecipeStore(state => state.removeFavouriteRecipe)
 
-
-    useEffect(() => {
+    useEffect(() => { 
         getDetails()
-    }, [router.query.id]) 
+    }, [router.query.id])  
 
     const getDetails = async () => {
-        const api = await fetchData(`${API_URL}/${RECIPES}/${router.query.id}/information`)
-        const data = await api.json()
-        console.log(data)
-        setDetails(data)
+        const foundRecipeInLocalStorage = favouriteRecipes.find(recipe => recipe.id.toString() === router.query.id)
+ 
+        if (foundRecipeInLocalStorage) {
+            console.log('foundRecipe: ', foundRecipeInLocalStorage)
+            setDetails(foundRecipeInLocalStorage) 
+            setToggleFavourite(true)
+            return  
+        }   
+
+        try {
+            const api = await fetchData(`${API_URL}/${RECIPES}/${router.query.id}/information`)
+            const data = await api.json()
+            setDetails(data) 
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
+    const addToFavourites = () => {
+        const foundRecipeInLocalStorage = favouriteRecipes.find(recipe => recipe.id.toString() === router.query.id)
+
+        if (foundRecipeInLocalStorage) { 
+            console.log('remove recipe', foundRecipeInLocalStorage.id)
+            removeFavouriteRecipe(foundRecipeInLocalStorage.id)
+            setToggleFavourite(false)
+        } else { 
+            addFavouriteRecipe(details)
+            setToggleFavourite(true)
+        }
     }
 
     return (
@@ -70,10 +100,10 @@ function Recipe() {
                         </Group>
                     </Group>
                 </Group>
-
+ 
                 <Group>
-                    <ActionIcon color="red">
-                        <ThemeIcon color="red" variant="dark" radius="xl" size="xl">
+                    <ActionIcon color={toggleFavourite ? "red" : "gray"} onClick={addToFavourites}>
+                        <ThemeIcon color={toggleFavourite ? "red" : "gray"} variant="dark" radius="xl" size="xl">
                             <IconHeart size={25} />
                         </ThemeIcon>
                     </ActionIcon>
