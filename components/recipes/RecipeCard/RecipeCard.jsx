@@ -41,7 +41,7 @@ function RecipeCard({ id, title, image, readyInMinutes, servings }) {
         With Fjord Tours you can explore more of the magical fjord landscapes with tours and
         activities on and around the fjords of Norway
       </Text> */}
-      <Link href={`/recipe/${id}`}>
+      <Link href={`/recipes/${id}`}>
         <a>
           <Button variant="light" color="green" fullWidth mt="md" radius="md">
             View Recipe
