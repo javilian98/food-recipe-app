@@ -55,6 +55,22 @@ function Recipe() {
         }
     }
 
+    const controlServings = newServings => {
+        if (newServings === 0) return 
+
+        const newExtendedIngredients = details.extendedIngredients.map(ingredient => {
+            ingredient.measures.metric.amount = ((ingredient.measures.metric.amount * newServings) / details.servings).toFixed(2)
+
+            return ingredient
+        })
+
+        setDetails(prevDetails => ({
+            ...prevDetails,
+            servings: newServings,
+            extendedIngredients: newExtendedIngredients
+        }))
+    }
+
     return (
         <div className="recipe">
             <Card radius="lg">
@@ -87,16 +103,16 @@ function Recipe() {
                         
                         <Text size="xl">{details?.servings} servings</Text>
                         <Group spacing={5}>
-                            <ThemeIcon color="green" variant="light">
-                                <ActionIcon color="green">
-                                    <IconCircleMinus size={30} />
-                                </ActionIcon>
-                            </ThemeIcon>
-                            <ThemeIcon color="green" variant="light">
-                                <ActionIcon color="green">
-                                    <IconCirclePlus size={30} />
-                                </ActionIcon>
-                            </ThemeIcon>
+                        <ThemeIcon color="green" variant="light">
+                            <ActionIcon color="green" onClick={() => controlServings(details?.servings - 1)}>
+                                <IconCircleMinus size={30} />
+                            </ActionIcon>
+                        </ThemeIcon>
+                        <ThemeIcon color="green" variant="light">
+                            <ActionIcon color="green" onClick={() => controlServings(details?.servings + 1)}>
+                                <IconCirclePlus size={30} />
+                            </ActionIcon>
+                        </ThemeIcon>
                         </Group>
                     </Group>
                 </Group>
