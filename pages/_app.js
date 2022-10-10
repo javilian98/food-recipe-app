@@ -7,6 +7,7 @@ import {
   Navbar,
   Header,
   Footer,
+  Button,
   Aside,
   Text,
   MediaQuery,
@@ -15,15 +16,28 @@ import {
   MantineProvider,
   Avatar,
   Group,
-  Menu
+  Menu,
+  TextInput,
 } from '@mantine/core';
 import NavbarLinks from '../layouts/Navbar/NavbarLinks';
 import UserButton from '../components/users/UserButton/UserButton';
+
+import { useSearchRecipeStore } from '../stores/store'
+import { IconSearch } from '@tabler/icons';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
+   
+  const [searchInput, setSearchInput] = useState('')
+  const setSearchKeyword = useSearchRecipeStore(state => state.setKeyword)
+
+  const handleSearchSubmit = () => {
+    setSearchKeyword(searchInput)
+    router.push('/search')
+  } 
+
   return (
     <MantineProvider
       theme={{
@@ -80,6 +94,18 @@ function MyApp({ Component, pageProps }) {
               </MediaQuery>
 
               <Text>Application header</Text>
+
+              {router.pathname !== '/login' && (
+                  <Group>
+                    <TextInput
+                      icon={<IconSearch size={14} />}
+                      placeholder="Search recipes"
+                      value={searchInput}
+                      onChange={e => setSearchInput(e.target.value)}
+                    />
+                    <Button color="green" onClick={handleSearchSubmit}>Search</Button>
+                  </Group>
+              )}
 
               {/* Letters with xl radius */}
               
