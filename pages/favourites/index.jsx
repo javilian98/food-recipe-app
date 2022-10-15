@@ -1,16 +1,20 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-import { Container, Title, Space, Grid } from '@mantine/core'
+import { Container, Title, Space, Grid, Button } from '@mantine/core'
 import RecipeCard from '../../components/recipes/RecipeCard/RecipeCard'
 
-import { useFavouriteRecipeStore } from '../../stores/store'
+import { useFavouriteRecipeStore, useAccessTokenStore } from '../../stores/store'
+import { updateAccessToken } from '../../util/helper'
+import axios from 'axios'
 
 function Favourites() {
 
     const router = useRouter()
 
     const favouriteRecipes = useFavouriteRecipeStore(state => state.favouriteRecipes)
+    const accessToken = useAccessTokenStore(state => state.accessToken)
+    const setAccessToken = useAccessTokenStore(state => state.setAccessToken)
 
     useEffect(() => {
         getFavouriteRecipes()
@@ -41,14 +45,30 @@ function Favourites() {
             //  
         }
         catch(e) {
-            console.log(e);
+            console.log(e); 
         }
     }
 
+    // const refreshTokenHandler = async () => {
+    //     const newAccessToken = await updateAccessToken()
+        
+    //     console.log('newAccessToken: ', newAccessToken)
+    // }
+
+    const userHandler = async () => {
+        try {
+        const response = await axios.get('http://localhost:3000/api/user')
+        const data = response
+
+        console.log(data)
+        } catch (error) {
+            console.log(error);
+        }
+    }
  
     return (
         <Container fluid>
-            <Title order={2}>Favourite Recipes</Title>
+            <Title order={2}>Favourite Recipes<Button onClick={userHandler}></Button></Title>
             <Space h="xl" />
             <Grid>
                 {favouriteRecipes.map(recipe => (

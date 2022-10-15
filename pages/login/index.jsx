@@ -5,9 +5,13 @@ import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
 import axios from 'axios';
 import Link from 'next/link';
+import { useAccessTokenStore } from '../../stores/store';
 
 function Login() {
     const router = useRouter()
+
+    const setAccessToken = useAccessTokenStore(state => state.setAccessToken)
+    const accessToken = useAccessTokenStore(state => state.accessToken)
 
     const form = useForm({
         initialValues: {
@@ -49,17 +53,17 @@ function Login() {
 
         try {
             setFormErrorMsg('')
-            const token = await axios.post('http://localhost:3000/api/auth/login', {
+            const response = await axios.post('http://localhost:3000/api/auth/login', {
                 email: form.values.email,
                 password: form.values.password
             })
             
-            const response = token
-            const { status } = response.data
-
-            console.log('status: ', response.data.status)
+            const { status, access_token } = response.data
+ 
+            // console.log(access_token) 
 
             if (status === 'OK') {
+                setAccessToken(access_token)
                 router.push('/')
             }
         } catch (error) {

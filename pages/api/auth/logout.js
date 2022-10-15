@@ -8,7 +8,11 @@ export default async function logout(req, res) {
         serialize('refresh_token', '', {
             maxAge: -1,
             path: '/',
-        }) 
+        }),
+        serialize('access_token', '', {
+            maxAge: -1,
+            path: '/',
+        })
     ])
 
     return res.status(200).json({
