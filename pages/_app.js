@@ -24,6 +24,7 @@ import UserButton from '../components/users/UserButton/UserButton';
 
 import { useSearchRecipeStore } from '../stores/store'
 import { IconSearch } from '@tabler/icons';
+import Link from 'next/link';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
@@ -65,7 +66,7 @@ function MyApp({ Component, pageProps }) {
             )
         }  
         aside={
-          (router.pathname === '/login' || router.pathname === '/register') 
+          (router.pathname === '/' || router.pathname === '/login' || router.pathname === '/register') 
             ? null 
             : (
               <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
@@ -104,6 +105,9 @@ function MyApp({ Component, pageProps }) {
                       onChange={e => setSearchInput(e.target.value)}
                     />
                     <Button color="green" onClick={handleSearchSubmit}>Search</Button>
+                    <Link href="/search/ingredients">
+                      <Button color="blue">Search By Ingredients</Button>
+                    </Link>
                   </Group>
               )}
 
