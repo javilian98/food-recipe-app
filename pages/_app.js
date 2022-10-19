@@ -39,6 +39,11 @@ function MyApp({ Component, pageProps }) {
     router.push('/search')
   } 
 
+  const enterSearchSubmit = (e) => {
+    if(e.key === 'Enter')
+      handleSearchSubmit()
+  }
+
   return (
     <MantineProvider
       theme={{
@@ -102,7 +107,9 @@ function MyApp({ Component, pageProps }) {
                       icon={<IconSearch size={14} />}
                       placeholder="Search recipes"
                       value={searchInput}
-                      onChange={e => setSearchInput(e.target.value)}
+                      onChange={e => setSearchInput(e.target.value)} 
+                      onKeyDown={e => enterSearchSubmit(e)}
+
                     />
                     <Button color="green" onClick={handleSearchSubmit}>Search</Button>
                     <Link href="/search/ingredients">
