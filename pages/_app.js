@@ -44,6 +44,10 @@ function MyApp({ Component, pageProps }) {
       handleSearchSubmit()
   }
 
+  const handleHome = () => {
+    router.push('/')
+  }
+
   return (
     <MantineProvider
       theme={{
@@ -99,7 +103,10 @@ function MyApp({ Component, pageProps }) {
                 />
               </MediaQuery>
 
-              <Text>Application header</Text>
+              
+              <button onClick={handleHome}>
+              Food for thought
+              </button>
 
               {router.pathname !== '/login' && (
                   <Group>

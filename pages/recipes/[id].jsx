@@ -14,6 +14,7 @@ function Recipe() {
 
     const [details, setDetails] = useState()
     const [toggleFavourite, setToggleFavourite] = useState(false)
+    
      
     const favouriteRecipes = useFavouriteRecipeStore(state => state.favouriteRecipes)
     const addFavouriteRecipe = useFavouriteRecipeStore(state => state.addFavouriteRecipe)
@@ -71,6 +72,8 @@ function Recipe() {
         }))
     }
 
+    
+
     return (
         <div className="recipe">
             <Card radius="lg">
@@ -126,7 +129,6 @@ function Recipe() {
                 </Group>
             </Group>
 
-             
             <Space h={40} />
             <Container fluid spacing="xs" >
                 <Title order={3} color="green">Recipe Ingredients</Title>
