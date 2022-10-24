@@ -20,6 +20,7 @@ import {
   TextInput,
   Image
 } from '@mantine/core';
+import { NotificationsProvider } from '@mantine/notifications';
 import NavbarLinks from '../layouts/Navbar/NavbarLinks';
 import UserButton from '../components/users/UserButton/UserButton';
 
@@ -131,7 +132,9 @@ function MyApp({ Component, pageProps }) {
           </Header>
         }
       >
-        <Component {...pageProps} />
+        <NotificationsProvider position="bottom-left">
+          <Component {...pageProps} />
+        </NotificationsProvider>
       </AppShell>
     </MantineProvider>
   );

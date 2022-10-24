@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { Card, Image, Overlay, Title, Text, Group, ThemeIcon, Space, Container, Grid, ActionIcon, Center, Accordion, Avatar } from '@mantine/core'
+import { showNotification } from '@mantine/notifications';
 import { IconAlarm, IconSoup, IconCircleMinus, IconCirclePlus, IconCheck, IconHeart, IconConfetti } from '@tabler/icons';
 
 import { API_URL, RECIPES } from '../../constants/constants'
@@ -103,8 +104,34 @@ function Recipe() {
                 nutrition: JSON.stringify(nutrition)
             })  
 
-            const data = response.data
-            console.log(data)
+            const { status, success_message } = response.data
+            
+            if (status === 200) {
+                // showNotification({
+                //     title: 'Favourite Recipes',
+                //     message: 'Added to Favourites 🤥',
+                // })
+
+                showNotification({
+                    title: 'Favourite Recipes',
+                    message: 'Added to Favourites! 😊',
+                    styles: (theme) => ({
+                      root: {
+                        backgroundColor: theme.colors.green[6],
+                        borderColor: theme.colors.green[6],
+        
+                        '&::before': { backgroundColor: theme.white },
+                      },
+        
+                      title: { color: theme.white },
+                      description: { color: theme.white },
+                      closeButton: {
+                        color: theme.white,
+                        '&:hover': { backgroundColor: theme.colors.green[7] },
+                      },
+                    }),
+                  })
+            }
         }
     }
 

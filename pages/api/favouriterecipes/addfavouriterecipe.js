@@ -12,14 +12,14 @@ export default async function addfavouriterecipe(req, res) {
             }
         }
 
-        const response = await axios.post('http://localhost:8080/api/recipes', {
+        const response = axios.post('http://localhost:8080/api/recipes', {
             info,
             instructions,
             extendedIngredients,
             nutrition
         }, config)
 
-        res.status(200).json({ success_message: 'Added to Favourites' })
+        res.status(200).json({ status: 200, success_message: 'Added to Favourites' })
 
     } catch (error) {
         console.log(error);
