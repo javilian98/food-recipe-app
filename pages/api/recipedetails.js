@@ -12,14 +12,9 @@ export default async function recipedetails(req, res) {
 
         delete recipeData.analyzedInstructions[0].steps
         delete recipeData.extendedIngredients
-        delete recipeData.nutrition.nutrients
+        delete recipeData.nutrition
 
         const info = recipeData
-
-        console.log('instructions: ', instructions)
-        console.log('extendedIngredients: ', extendedIngredients)
-        console.log('nutrition: ', nutrition)
-        console.log('info: ', info)
 
         const recipeNutritionResponse = await fetchData(`${API_URL}/${RECIPES}/${req.query.recipeid}/nutritionLabel.png`, '&showOptionalNutrients=true')
         let contentType = recipeNutritionResponse.headers.get("Content-Type");
