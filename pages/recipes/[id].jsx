@@ -106,7 +106,10 @@ function Recipe() {
 
         setDetails(prevDetails => ({
             ...prevDetails,
-            servings: newServings,
+            info: {
+                ...prevDetails.info,
+                servings: newServings
+            },
             extendedIngredients: newExtendedIngredients
         }))
     }
