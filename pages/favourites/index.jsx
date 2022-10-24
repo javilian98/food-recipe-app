@@ -30,6 +30,7 @@ function Favourites() {
 
     // const [favouriteRecipes, setFavouriteRecipes] = useState([])
 
+    console.log(favouriteRecipes)
     
 
     const getFavouriteRecipes = () => {
@@ -72,13 +73,13 @@ function Favourites() {
             <Space h="xl" />
             <Grid>
                 {favouriteRecipes.map(recipe => (
-                    <Grid.Col md={6} lg={4} key={recipe.id}>
+                    <Grid.Col md={6} lg={4} key={recipe.info.id}>
                     <RecipeCard 
-                        id={recipe.id}
-                        title={recipe.title}
-                        image={recipe.image}
-                        readyInMinutes={recipe.readyInMinutes}
-                        servings={recipe.servings}
+                        id={recipe.info.id}
+                        title={recipe.info.title}
+                        image={recipe.info.image}
+                        readyInMinutes={recipe.info.readyInMinutes}
+                        servings={recipe.info.servings}
                     />
                     </Grid.Col>
                 ))}

@@ -4,7 +4,7 @@ import { devtools, persist } from 'zustand/middleware'
 let favouriteRecipeStore = set => ({
     favouriteRecipes: [],
     addFavouriteRecipe: recipe => set(state => ({ favouriteRecipes: [...state.favouriteRecipes, recipe] })),
-    removeFavouriteRecipe: id => set(state => ({ favouriteRecipes: state.favouriteRecipes.filter(recipe => recipe.id !== id) })),
+    removeFavouriteRecipe: id => set(state => ({ favouriteRecipes: state.favouriteRecipes.filter(recipe => recipe.info.id !== id) })),
 })
  
 favouriteRecipeStore = devtools(favouriteRecipeStore)

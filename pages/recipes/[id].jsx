@@ -7,6 +7,7 @@ import { API_URL, RECIPES } from '../../constants/constants'
 import { fetchData } from '../../util/helper'
 
 import { useFavouriteRecipeStore, useRecipeNutritionImageStore } from '../../stores/store'
+import axios from 'axios';
 
 function Recipe() {
 
@@ -47,7 +48,7 @@ function Recipe() {
     
 
     const getDetails = async () => {
-        const foundRecipeInLocalStorage = favouriteRecipes.find(recipe => recipe.id.toString() === router.query.id)
+        const foundRecipeInLocalStorage = favouriteRecipes.find(recipe => recipe.info.id.toString() === router.query.id) || null
  
         if (foundRecipeInLocalStorage) {
             console.log('foundRecipe: ', foundRecipeInLocalStorage)
@@ -82,16 +83,28 @@ function Recipe() {
         } 
     }
 
-    const addToFavourites = () => {
-        const foundRecipeInLocalStorage = favouriteRecipes.find(recipe => recipe.id.toString() === router.query.id)
+    const addToFavourites = async () => {
+        const foundRecipeInLocalStorage = favouriteRecipes.find(recipe => recipe.info.id.toString() === router.query.id)
 
         if (foundRecipeInLocalStorage) { 
-            console.log('remove recipe', foundRecipeInLocalStorage.id)
-            removeFavouriteRecipe(foundRecipeInLocalStorage.id)
+            console.log('remove recipe', foundRecipeInLocalStorage.info.id)
+            removeFavouriteRecipe(foundRecipeInLocalStorage.info.id)
             setToggleFavourite(false)
         } else { 
             addFavouriteRecipe(details)
             setToggleFavourite(true)
+
+            const { info, instructions, extendedIngredients, nutrition } = details
+            
+            const response = await axios.post('http://localhost:3000/api/favouriterecipes/addfavouriterecipe', {
+                info: JSON.stringify(info),
+                instructions: JSON.stringify(instructions),
+                extendedIngredients: JSON.stringify(extendedIngredients),
+                nutrition: JSON.stringify(nutrition)
+            })  
+
+            const data = response.data
+            console.log(data)
         }
     }
 
