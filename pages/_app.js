@@ -18,11 +18,12 @@ import {
   Group,
   Menu,
   TextInput,
+  Image
 } from '@mantine/core';
 import NavbarLinks from '../layouts/Navbar/NavbarLinks';
 import UserButton from '../components/users/UserButton/UserButton';
 
-import { useSearchRecipeStore } from '../stores/store'
+import { useSearchRecipeStore, useRecipeNutritionImageStore } from '../stores/store'
 import { IconSearch } from '@tabler/icons';
 import Link from 'next/link';
 
@@ -33,11 +34,13 @@ function MyApp({ Component, pageProps }) {
    
   const [searchInput, setSearchInput] = useState('')
   const setSearchKeyword = useSearchRecipeStore(state => state.setKeyword)
+  const nutritionImageBase64 = useRecipeNutritionImageStore(state => state.nutritionImageBase64)
 
   const handleSearchSubmit = () => {
     setSearchKeyword(searchInput)
     router.push('/search')
   } 
+
 
   return (
     <MantineProvider
@@ -66,14 +69,14 @@ function MyApp({ Component, pageProps }) {
             )
         }  
         aside={
-          (router.pathname === '/' || router.pathname === '/login' || router.pathname === '/register') 
+          (router.pathname === '/' || router.pathname === '/login' || router.pathname === '/register' || router.pathname === '/search/ingredients') 
             ? null 
             : (
               <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
-                <Aside p="md" hiddenBreakpoint="sm" width={{ sm: 200, lg: 400 }}>
-                  <Text>Application sidebar</Text>
-                </Aside>
-              </MediaQuery>
+                <Aside p="md" hiddenBreakpoint="sm" width={{ sm: 200, lg: 400 }} style={{overflowY: 'scroll'}}>
+                  <Image src={nutritionImageBase64} alt="nutrition image" />
+                </Aside>  
+              </MediaQuery> 
             )
         } 
         // footer={

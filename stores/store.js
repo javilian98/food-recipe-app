@@ -9,7 +9,6 @@ let favouriteRecipeStore = set => ({
  
 favouriteRecipeStore = devtools(favouriteRecipeStore)
 favouriteRecipeStore = persist(favouriteRecipeStore, { name: 'favouriteRecipes' })
- 
 export const useFavouriteRecipeStore = create(favouriteRecipeStore) 
 
 
@@ -18,6 +17,7 @@ export const useSearchRecipeStore = create(set => ({
     setKeyword: keyword => set({ keyword }),
 }));
 
+
 let accessTokenStore = set => ({ 
     accessToken: '',
     setAccessToken: accessToken => set({ accessToken }) 
@@ -25,3 +25,10 @@ let accessTokenStore = set => ({
 accessTokenStore = devtools(accessTokenStore) 
 accessTokenStore = persist(accessTokenStore, { name: 'access_token' }) 
 export const useAccessTokenStore = create(accessTokenStore)
+
+
+
+export const useRecipeNutritionImageStore = create(set => ({
+    nutritionImageBase64: '',
+    setNutritionImageBase64: nutritionImageBase64 => set({ nutritionImageBase64 }) 
+}))

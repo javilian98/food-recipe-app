@@ -29,8 +29,8 @@ function Search() {
             const data = response.data
             setResult(data.results)
         }
-        catch(e) {
-            console.log(e);
+        catch(e) { 
+            console.log(e); 
         }
     }
 

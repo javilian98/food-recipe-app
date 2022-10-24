@@ -6,22 +6,45 @@ import { IconAlarm, IconSoup, IconCircleMinus, IconCirclePlus, IconCheck, IconHe
 import { API_URL, RECIPES } from '../../constants/constants'
 import { fetchData } from '../../util/helper'
 
-import { useFavouriteRecipeStore } from '../../stores/store'
+import { useFavouriteRecipeStore, useRecipeNutritionImageStore } from '../../stores/store'
 
 function Recipe() {
 
     const router = useRouter()
 
-    const [details, setDetails] = useState()
+    // const [details, setDetails] = useState()
+    const [details, setDetails] = useState({
+        info: {},
+        instructions: [],
+        extendedIngredients: [],
+        nutrition: []
+    })
     const [toggleFavourite, setToggleFavourite] = useState(false)
      
     const favouriteRecipes = useFavouriteRecipeStore(state => state.favouriteRecipes)
     const addFavouriteRecipe = useFavouriteRecipeStore(state => state.addFavouriteRecipe)
     const removeFavouriteRecipe = useFavouriteRecipeStore(state => state.removeFavouriteRecipe)
 
+    const setNutritionImageBase64 = useRecipeNutritionImageStore(state => state.setNutritionImageBase64)
+
     useEffect(() => { 
         getDetails()
+
+        // fetch(`https://api.spoonacular.com/recipes/662038/nutritionLabel.png?apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API_SECRET_KEY}&showOptionalNutrients=true`)
+        //     .then(res => res.blob())
+        //     .then(imageBlob => {
+        //         var reader = new FileReader();
+        //         reader.readAsDataURL(imageBlob); 
+
+        //         console.log(reader)
+        //     })
     }, [router.query.id])  
+
+    // console.log(details)
+
+    // const { extendedIngredients } = details
+    // console.log(extendedIngredients)
+    
 
     const getDetails = async () => {
         const foundRecipeInLocalStorage = favouriteRecipes.find(recipe => recipe.id.toString() === router.query.id)
@@ -34,12 +57,29 @@ function Recipe() {
         }   
 
         try {
-            const api = await fetchData(`${API_URL}/${RECIPES}/${router.query.id}/information`)
+            console.log('dataaa')
+            // const api = await fetchData(`${API_URL}/${RECIPES}/${router.query.id}/information`)
+            const api = await fetch('http://localhost:3000/api/recipedetails?' + new URLSearchParams({
+                recipeid: router.query.id
+            }))
             const data = await api.json()
-            setDetails(data) 
+            const { recipeData, nutritionImageBase64 } = data
+            console.log(data) 
+
+            const { info, instructions, extendedIngredients, nutrition } = recipeData
+
+            setDetails({
+                info,
+                instructions,
+                extendedIngredients,
+                nutrition
+            })
+            setNutritionImageBase64(nutritionImageBase64)
+
+            
         } catch (e) {
             console.log(e)
-        }
+        } 
     }
 
     const addToFavourites = () => {
@@ -59,7 +99,7 @@ function Recipe() {
         if (newServings === 0) return 
 
         const newExtendedIngredients = details.extendedIngredients.map(ingredient => {
-            ingredient.measures.metric.amount = ((ingredient.measures.metric.amount * newServings) / details.servings).toFixed(2)
+            ingredient.measures.metric.amount = ((ingredient.measures.metric.amount * newServings) / details.info.servings).toFixed(2)
 
             return ingredient
         })
@@ -77,12 +117,12 @@ function Recipe() {
                 <Overlay opacity={0.3} color="#000" zIndex={1} />
                 <Card.Section sx={{ position: 'relative' }}>
                     <Image
-                        src={details?.image}
+                        src={details.info.image}
                         height={300}
                         alt="Norway"
                     />
 
-                    <Title order={2} color="#fff" sx={{ position: 'absolute', bottom: '20px', left: '20px', zIndex: 5 }}>{details?.title}</Title>
+                    <Title order={2} color="#fff" sx={{ position: 'absolute', bottom: '20px', left: '20px', zIndex: 5 }}>{details.info.title}</Title>
                 </Card.Section>
             </Card>
             <Space h="xl" />
@@ -93,7 +133,7 @@ function Recipe() {
                             <IconAlarm size={60} />
                         </ThemeIcon>
                 
-                        <Text size="xl">{details?.readyInMinutes} mins</Text>
+                        <Text size="xl">{details.info.readyInMinutes} mins</Text>
                     </Group>
 
                     <Group spacing="xs">
@@ -101,15 +141,15 @@ function Recipe() {
                             <IconSoup size={60} />
                         </ThemeIcon>
                         
-                        <Text size="xl">{details?.servings} servings</Text>
+                        <Text size="xl">{details.info.servings} servings</Text>
                         <Group spacing={5}>
                         <ThemeIcon color="green" variant="light">
-                            <ActionIcon color="green" onClick={() => controlServings(details?.servings - 1)}>
+                            <ActionIcon color="green" onClick={() => controlServings(details.info.servings - 1)}>
                                 <IconCircleMinus size={30} />
                             </ActionIcon>
                         </ThemeIcon>
                         <ThemeIcon color="green" variant="light">
-                            <ActionIcon color="green" onClick={() => controlServings(details?.servings + 1)}>
+                            <ActionIcon color="green" onClick={() => controlServings(details.info.servings + 1)}>
                                 <IconCirclePlus size={30} />
                             </ActionIcon>
                         </ThemeIcon>
@@ -132,7 +172,7 @@ function Recipe() {
                 <Title order={3} color="green">Recipe Ingredients</Title>
                 <Space h={20} />
                 <Grid className="recipe__ingredient-list" role="list">
-                    {details?.extendedIngredients.map((ingredient, index) => {
+                    {details.extendedIngredients.map((ingredient, index) => {
                         return (
                             <Grid.Col 
                                 className="recipe__ingredient" 
@@ -172,7 +212,7 @@ function Recipe() {
                     }
                 }}
             >
-                {details?.analyzedInstructions[0].steps.map((step, index) => (
+                {details.instructions.map((step, index) => (
                     <Accordion.Item value={`${step.number}`} key={step.number}>
                         <Accordion.Control>
                             <Group>
@@ -225,7 +265,7 @@ function Recipe() {
                             <Avatar color="blue" radius="xl">
                                 <IconConfetti size={24} />
                             </Avatar>
-                            Completed 
+                            Completed  
                         </Group>
                     </Accordion.Control>
                     <Accordion.Panel>
