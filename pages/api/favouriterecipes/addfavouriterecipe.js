@@ -4,7 +4,7 @@ import axios from 'axios'
 export default async function addfavouriterecipe(req, res) {
     try {
         let { access_token }  = cookie.parse(req.headers.cookie)
-        const { info, instructions, extendedIngredients, nutrition } = req.body
+        const { recipeDataId, info, instructions, extendedIngredients, nutrition } = req.body
 
         const config = {
             headers: {
@@ -12,7 +12,8 @@ export default async function addfavouriterecipe(req, res) {
             }
         }
 
-        const response = axios.post('http://localhost:8080/api/recipes', {
+        const response = await axios.post('http://localhost:8080/api/recipes', {
+            recipeDataId,
             info,
             instructions,
             extendedIngredients,

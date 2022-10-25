@@ -13,6 +13,9 @@ function Favourites() {
     const router = useRouter()
 
     const favouriteRecipes = useFavouriteRecipeStore(state => state.favouriteRecipes)
+    const addFavouriteRecipe = useFavouriteRecipeStore(state => state.addFavouriteRecipe)
+    const resetFavouriteRecipes = useFavouriteRecipeStore(state => state.resetFavouriteRecipes)
+
     const accessToken = useAccessTokenStore(state => state.accessToken)
     const setAccessToken = useAccessTokenStore(state => state.setAccessToken)
 
@@ -30,20 +33,28 @@ function Favourites() {
 
     // const [favouriteRecipes, setFavouriteRecipes] = useState([])
 
-    console.log(favouriteRecipes)
-    
 
-    const getFavouriteRecipes = () => {
-        const localStorageData = JSON.parse(localStorage.getItem('favouriteRecipes'))
-
-        if (localStorageData) return
+    const getFavouriteRecipes = async () => {
         
         try {
+            resetFavouriteRecipes()
+            
             // fetch favourite recipes from backend server API
-
+            const response = await axios.get('http://localhost:3000/api/favouriterecipes/getfavouriterecipes')
+            const data = response.data
+            console.log(data);
+ 
             // loop over favurite recipes data, add each recipe data into favourite recipes state
-
-            //  
+            data.data.forEach(recipeString => {
+                const parsedRecipe = {
+                    info: JSON.parse(recipeString.info),
+                    instructions: JSON.parse(recipeString.instructions),
+                    extendedIngredients: JSON.parse(recipeString.extendedIngredients),
+                    nutrition: JSON.parse(recipeString.nutrition)
+                }
+                
+                addFavouriteRecipe(parsedRecipe)
+            })
         }
         catch(e) {
             console.log(e); 
@@ -69,17 +80,17 @@ function Favourites() {
  
     return (
         <Container fluid>
-            <Title order={2}>Favourite Recipes<Button onClick={userHandler}></Button></Title>
+            <Title order={2}>Favourite Recipes</Title>
             <Space h="xl" />
             <Grid>
                 {favouriteRecipes.map(recipe => (
-                    <Grid.Col md={6} lg={4} key={recipe.info.id}>
+                    <Grid.Col md={6} lg={4} key={recipe.info?.id}>
                     <RecipeCard 
-                        id={recipe.info.id}
-                        title={recipe.info.title}
-                        image={recipe.info.image}
-                        readyInMinutes={recipe.info.readyInMinutes}
-                        servings={recipe.info.servings}
+                        id={recipe.info?.id}
+                        title={recipe.info?.title}
+                        image={recipe.info?.image}
+                        readyInMinutes={recipe.info?.readyInMinutes}
+                        servings={recipe.info?.servings}
                     />
                     </Grid.Col>
                 ))}

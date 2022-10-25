@@ -46,21 +46,18 @@ function Recipe() {
 
     // const { extendedIngredients } = details
     // console.log(extendedIngredients)
-    
 
     const getDetails = async () => {
-        const foundRecipeInLocalStorage = favouriteRecipes.find(recipe => recipe.info.id.toString() === router.query.id) || null
+        // const foundRecipeInLocalStorage = favouriteRecipes.find(recipe => recipe.info.id.toString() === router.query.id) || null
  
-        if (foundRecipeInLocalStorage) {
-            console.log('foundRecipe: ', foundRecipeInLocalStorage)
-            setDetails(foundRecipeInLocalStorage) 
-            setToggleFavourite(true)
-            return  
-        }   
-
+        // if (foundRecipeInLocalStorage) {
+        //     console.log('foundRecipe: ', foundRecipeInLocalStorage)
+        //     setDetails(foundRecipeInLocalStorage) 
+        //     setToggleFavourite(true)
+        //     return  
+        // }   
+ 
         try {
-            console.log('dataaa')
-            // const api = await fetchData(`${API_URL}/${RECIPES}/${router.query.id}/information`)
             const api = await fetch('http://localhost:3000/api/recipedetails?' + new URLSearchParams({
                 recipeid: router.query.id
             }))
@@ -78,6 +75,10 @@ function Recipe() {
             })
             setNutritionImageBase64(nutritionImageBase64)
 
+            const foundRecipe = favouriteRecipes.find(recipe => recipe.info.id.toString() === router.query.id)
+            if (foundRecipe) {
+                setToggleFavourite(true)
+            }
             
         } catch (e) {
             console.log(e)
@@ -85,12 +86,44 @@ function Recipe() {
     }
 
     const addToFavourites = async () => {
-        const foundRecipeInLocalStorage = favouriteRecipes.find(recipe => recipe.info.id.toString() === router.query.id)
+        const foundRecipe = favouriteRecipes.find(recipe => recipe.info.id.toString() === router.query.id)
 
-        if (foundRecipeInLocalStorage) { 
-            console.log('remove recipe', foundRecipeInLocalStorage.info.id)
-            removeFavouriteRecipe(foundRecipeInLocalStorage.info.id)
+        if (foundRecipe) { 
+            console.log('remove recipe', foundRecipe.info.id)
+            removeFavouriteRecipe(foundRecipe.info.id)
             setToggleFavourite(false)
+
+            console.log('rounter query id: ', router.query.id)
+            const response = await axios.delete('http://localhost:3000/api/favouriterecipes/deletefavouriterecipe', {
+                data: {
+                    recipeDataId: Number(router.query.id)
+                }
+            })
+
+            const { status, success_message } = response.data
+            
+
+            if (status === 200) {
+                showNotification({
+                    title: 'Favourite Recipes',
+                    message: success_message,
+                    styles: (theme) => ({
+                      root: {
+                        backgroundColor: theme.colors.green[6],
+                        borderColor: theme.colors.green[6],
+        
+                        '&::before': { backgroundColor: theme.white },
+                      },
+        
+                      title: { color: theme.white },
+                      description: { color: theme.white },
+                      closeButton: {
+                        color: theme.white,
+                        '&:hover': { backgroundColor: theme.colors.green[7] },
+                      },
+                    }),
+                  })
+            }
         } else { 
             addFavouriteRecipe(details)
             setToggleFavourite(true)
@@ -98,6 +131,7 @@ function Recipe() {
             const { info, instructions, extendedIngredients, nutrition } = details
             
             const response = await axios.post('http://localhost:3000/api/favouriterecipes/addfavouriterecipe', {
+                recipeDataId: router.query.id,
                 info: JSON.stringify(info),
                 instructions: JSON.stringify(instructions),
                 extendedIngredients: JSON.stringify(extendedIngredients),

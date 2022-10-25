@@ -70,15 +70,15 @@ function MyApp({ Component, pageProps }) {
             )
         }  
         aside={
-          (router.pathname === '/' || router.pathname === '/login' || router.pathname === '/register' || router.pathname === '/search/ingredients') 
-            ? null 
-            : (
+          (router.pathname.includes('/recipes/')) 
+            ? (
               <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
                 <Aside p="md" hiddenBreakpoint="sm" width={{ sm: 200, lg: 400 }} style={{overflowY: 'scroll'}}>
                   <Image src={nutritionImageBase64} alt="nutrition image" />
                 </Aside>  
               </MediaQuery> 
             )
+            : null 
         } 
         // footer={
         //   <Footer height={60} p="md">
