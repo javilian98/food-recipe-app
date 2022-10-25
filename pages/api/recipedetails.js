@@ -6,6 +6,8 @@ export default async function recipedetails(req, res) {
         const recipeResponse = await fetchData(`${API_URL}/${RECIPES}/${req.query.recipeid}/information`, '&includeNutrition=true')
         const recipeData = await recipeResponse.json()
 
+        console.log('recipeDataaaa: ', recipeData)
+
         const instructions = recipeData.analyzedInstructions[0].steps
         const extendedIngredients = recipeData.extendedIngredients
         const nutrition = recipeData.nutrition.nutrients
@@ -31,8 +33,9 @@ export default async function recipedetails(req, res) {
                 nutrition
             }, 
             nutritionImageBase64 
-        }) 
+        })
     } catch (e) {
         console.log(e)
+        res.status(500).json("error")
     }  
 }

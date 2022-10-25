@@ -70,7 +70,7 @@ function MyApp({ Component, pageProps }) {
             )
         }  
         aside={
-          (router.pathname.includes('/recipes/')) 
+          (router.pathname.includes('/recipes/') || router.pathname.includes('/favourites/')) 
             ? (
               <MediaQuery smallerThan="sm" styles={{ display: 'none' }}>
                 <Aside p="md" hiddenBreakpoint="sm" width={{ sm: 200, lg: 400 }} style={{overflowY: 'scroll'}}>

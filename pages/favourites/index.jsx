@@ -22,6 +22,8 @@ function Favourites() {
     useEffect(() => {
         getFavouriteRecipes()
     }, [])
+
+    console.log(router.pathname)
     
     // const [recipes, setRecipes] = useState([{
     //     id: '632091',
@@ -86,6 +88,7 @@ function Favourites() {
                 {favouriteRecipes.map(recipe => (
                     <Grid.Col md={6} lg={4} key={recipe.info?.id}>
                     <RecipeCard 
+                        linkTo={router.pathname}
                         id={recipe.info?.id}
                         title={recipe.info?.title}
                         image={recipe.info?.image}

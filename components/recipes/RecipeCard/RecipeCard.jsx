@@ -1,9 +1,14 @@
 import React from 'react'
 import Link from 'next/link';
+import { useRouter } from 'next/router'
 import { IconAlarm, IconSoup } from '@tabler/icons';
 import { Card, Image, Text, Badge, Button, Group, ThemeIcon } from '@mantine/core';
 
-function RecipeCard({ id, title, image, readyInMinutes, servings }) {
+function RecipeCard({ linkTo, id, title, image, readyInMinutes, servings }) {
+  const router = useRouter()
+
+  const pathname = linkTo === undefined ? '/recipes' : '/favourites'
+  
   return (
     <Card shadow="sm" p="lg" radius="md" withBorder>
       <Card.Section>
@@ -41,7 +46,7 @@ function RecipeCard({ id, title, image, readyInMinutes, servings }) {
         With Fjord Tours you can explore more of the magical fjord landscapes with tours and
         activities on and around the fjords of Norway
       </Text> */}
-      <Link href={`/recipes/${id}`}>
+      <Link href={`${pathname}/${id}`}>
         <a>
           <Button variant="light" color="green" fullWidth mt="md" radius="md">
             View Recipe
