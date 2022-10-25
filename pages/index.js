@@ -18,7 +18,6 @@ export default function Home() {
     getRandomRecipes()
   }, []) 
 
-  
 
   const getRandomRecipes = async () => {
 
