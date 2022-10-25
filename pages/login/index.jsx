@@ -6,12 +6,16 @@ import { showNotification } from '@mantine/notifications';
 import axios from 'axios';
 import Link from 'next/link';
 import { useAccessTokenStore } from '../../stores/store';
+import { parseJwt } from '../../util/helper';
 
 function Login() {
     const router = useRouter()
 
     const setAccessToken = useAccessTokenStore(state => state.setAccessToken)
     const accessToken = useAccessTokenStore(state => state.accessToken)
+
+    const setTokenDetails = useAccessTokenStore(state => state.setTokenDetails)
+    const tokenDetails = useAccessTokenStore(state => state.tokenDetails)
 
     const form = useForm({
         initialValues: {
@@ -63,6 +67,8 @@ function Login() {
             // console.log(access_token) 
 
             if (status === 'OK') {
+                const tokenDetails =  parseJwt(access_token)
+                setTokenDetails(tokenDetails)
                 setAccessToken(access_token)
                 router.push('/')
             }

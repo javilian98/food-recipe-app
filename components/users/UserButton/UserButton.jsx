@@ -1,29 +1,46 @@
+import { useState, useEffect } from 'react'
 import { Menu, Button, Text, Avatar } from '@mantine/core';
 import { IconSettings, IconSearch, IconPhoto, IconMessageCircle, IconTrash, IconArrowsLeftRight } from '@tabler/icons';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { useAccessTokenStore } from '../../../stores/store';
 
 function UserButton() {
   const router = useRouter()
+
+  const tokenDetails = useAccessTokenStore(state => state.tokenDetails)
+
+  const [userInitials, setUserInitials] = useState('')
 
   const logout = async () => {
     const response = await axios.post('http://localhost:3000/api/auth/logout')
 
     if (response.status === 200) {
+      setUserInitials('')
       router.push('/login')
     }
-    
   } 
+
+  const getUserInitials = () => {
+    if (tokenDetails !== undefined)
+      setUserInitials(tokenDetails.firstName.charAt(0) + tokenDetails.lastName.charAt(0))
+    else 
+      setUserInitials('')
+  }
+
+  useEffect(() => {
+    getUserInitials()
+  }, [tokenDetails])
 
   return ( 
     <Menu shadow="md" width={200}>
       <Menu.Target>
-        <Avatar color="cyan" radius="xl">MK</Avatar>
+        <Avatar color="cyan" radius="xl">{userInitials}</Avatar>
       </Menu.Target>
  
       <Menu.Dropdown>
         <Menu.Label>Application</Menu.Label>
-        <Menu.Item icon={<IconSettings size={14} />}>Settings</Menu.Item>
+        <Menu.Item icon={<IconSettings size={14} />}>My Profile</Menu.Item>
         <Menu.Item icon={<IconSettings size={14} />} onClick={logout}>Logout</Menu.Item>
         {/* <Menu.Item icon={<IconMessageCircle size={14} />}>Messages</Menu.Item>
         <Menu.Item icon={<IconPhoto size={14} />}>Gallery</Menu.Item>

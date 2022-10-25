@@ -21,7 +21,10 @@ export const useSearchRecipeStore = create(set => ({
 
 let accessTokenStore = set => ({ 
     accessToken: '',
-    setAccessToken: accessToken => set({ accessToken }) 
+    setAccessToken: accessToken => set({ accessToken }),
+
+    tokenDetails: undefined,
+    setTokenDetails: tokenDetails => set({ tokenDetails }),
 }) 
 accessTokenStore = devtools(accessTokenStore) 
 accessTokenStore = persist(accessTokenStore, { name: 'access_token' }) 
