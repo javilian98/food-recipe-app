@@ -10,36 +10,44 @@ function UserButton() {
 
   const tokenDetails = useAccessTokenStore(state => state.tokenDetails)
 
-  const [userInitials, setUserInitials] = useState('')
+  const [userDetails, setUserDetails] = useState({})
 
   const logout = async () => {
     const response = await axios.post('http://localhost:3000/api/auth/logout')
 
     if (response.status === 200) {
-      setUserInitials('')
+      setUserDetails('')
       router.push('/login')
     }
   } 
 
-  const getUserInitials = () => {
-    if (tokenDetails !== undefined)
-      setUserInitials(tokenDetails.firstName.charAt(0) + tokenDetails.lastName.charAt(0))
-    else 
-      setUserInitials('')
+  const getUserDetails = () => {
+    if (tokenDetails !== undefined) {
+      const { firstName, lastName } = tokenDetails
+
+      setUserDetails({
+        firstName,
+        lastName,
+        initials: firstName.charAt(0) + lastName.charAt(0)
+      })
+
+    } else {
+      setUserDetails({})
+    }
   }
 
   useEffect(() => {
-    getUserInitials()
+    getUserDetails()
   }, [tokenDetails])
 
   return ( 
     <Menu shadow="md" width={200}>
       <Menu.Target>
-        <Avatar color="cyan" radius="xl">{userInitials}</Avatar>
+        <Avatar color="cyan" radius="xl">{userDetails.initials}</Avatar>
       </Menu.Target>
  
       <Menu.Dropdown>
-        <Menu.Label>Application</Menu.Label>
+        <Menu.Label>{userDetails.firstName} {userDetails.lastName}</Menu.Label>
         <Menu.Item icon={<IconSettings size={14} />}>My Profile</Menu.Item>
         <Menu.Item icon={<IconSettings size={14} />} onClick={logout}>Logout</Menu.Item>
         {/* <Menu.Item icon={<IconMessageCircle size={14} />}>Messages</Menu.Item>
