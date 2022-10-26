@@ -25,6 +25,9 @@ import UserButton from '../components/users/UserButton/UserButton';
 import { useSearchRecipeStore } from '../stores/store'
 import { IconSearch } from '@tabler/icons';
 
+import { Image } from '@mantine/core';
+
+
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
   const theme = useMantineTheme();
@@ -36,6 +39,10 @@ function MyApp({ Component, pageProps }) {
   const handleSearchSubmit = () => {
     setSearchKeyword(searchInput)
     router.push('/search')
+  } 
+
+  const handleHome = () => {
+    router.push('/')
   } 
 
   return (
@@ -93,7 +100,10 @@ function MyApp({ Component, pageProps }) {
                 />
               </MediaQuery>
 
-              <Text>Application header</Text>
+              <img
+              style={{ width: 120, height: 50 }}
+               src="label.png" alt="" 
+               onClick={handleHome}/>
 
               {router.pathname !== '/login' && (
                   <Group>
