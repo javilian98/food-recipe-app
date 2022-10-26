@@ -19,6 +19,7 @@ export default async function recipedetails(req, res) {
         const info = recipeData
 
         const recipeNutritionResponse = await fetchData(`${API_URL}/${RECIPES}/${req.query.recipeid}/nutritionLabel.png`, '&showOptionalNutrients=true')
+        console.log('response: ', recipeNutritionResponse.headers);
         let contentType = recipeNutritionResponse.headers.get("Content-Type");
         const buffer = await recipeNutritionResponse.buffer()
         const nutritionImageBase64 = "data:" + contentType + ';base64,' + buffer.toString('base64')
