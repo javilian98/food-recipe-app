@@ -47,17 +47,62 @@ function Recipe() {
     // const { extendedIngredients } = details
     // console.log(extendedIngredients)
 
-    const getDetails = () => {
-        const foundRecipe = favouriteRecipes.find(recipe => recipe.info.id.toString() === router.query.id)
-        if (foundRecipe) {
+    const getDetails = async () => {
+        // const foundRecipeInLocalStorage = favouriteRecipes.find(recipe => recipe.info.id.toString() === router.query.id) || null
+ 
+        // if (foundRecipeInLocalStorage) {
+        //     console.log('foundRecipe: ', foundRecipeInLocalStorage)
+        //     setDetails(foundRecipeInLocalStorage) 
+        //     setToggleFavourite(true)
+        //     return  
+        // }   
+ 
+        try {
+            const config = {
+                params: {
+                    recipeDataId: router.query.id
+                }
+            } 
+            const api = await axios.get(`http://localhost:3000/api/favouriterecipes/getfavouriterecipedetails`, config)
+            const data = await api.data
+            const { recipeData, nutritionImageBase64 } = data
+            console.log(data) 
+
+            const { info, instructions, extendedIngredients, nutrition } = recipeData
+
+            // setDetails({
+            //     info: JSON.parse(info),
+            //     instructions: JSON.parse(instructions),
+            //     extendedIngredients: JSON.parse(extendedIngredients),
+            //     nutrition: JSON.parse(nutrition)
+            // })
             setDetails({
-                info: foundRecipe.info,
-                instructions: foundRecipe.instructions,
-                extendedIngredients: foundRecipe.extendedIngredients,
-                nutrition: foundRecipe.nutrition
+                info,
+                instructions,
+                extendedIngredients,
+                nutrition
             })
-            setToggleFavourite(true)
-        }
+            setNutritionImageBase64(nutritionImageBase64)
+
+            const foundRecipe = favouriteRecipes.find(recipe => recipe.info.id.toString() === router.query.id)
+            if (foundRecipe) {
+                setToggleFavourite(true)
+            }
+            
+        } catch (e) {
+            console.log(e)
+        } 
+
+        // const foundRecipe = favouriteRecipes.find(recipe => recipe.info.id.toString() === router.query.id)
+        // if (foundRecipe) {
+        //     setDetails({
+        //         info: foundRecipe.info,
+        //         instructions: foundRecipe.instructions,
+        //         extendedIngredients: foundRecipe.extendedIngredients,
+        //         nutrition: foundRecipe.nutrition
+        //     })
+        //     setToggleFavourite(true)
+        // }
     }
 
     const addToFavourites = async () => {
