@@ -101,8 +101,8 @@ function MyApp({ Component, pageProps }) {
               </MediaQuery>
 
               <img
-              style={{ width: 120, height: 50 }}
-               src="label.png" alt="" 
+               style={{ width: 50, height: 50 }}
+               src="logo.png" alt="" 
                onClick={handleHome}/>
 
               {router.pathname !== '/login' && (
