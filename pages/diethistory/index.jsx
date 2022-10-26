@@ -6,7 +6,15 @@ import RecipeCard from '../../components/recipes/RecipeCard/RecipeCard'
 
 import { useFavouriteRecipeStore } from '../../stores/store'
 
-import MKBox from "components/MKBox";
+import MKBox from '../../pages/diethistory/components/MKBox';
+import MKTypography from '../../pages/diethistory/components/MKTypography';
+import MKSocialButton from '../../pages/diethistory/components/MKSocialButton';
+
+import DefaultNavbar from '../../pages/diethistory/examples/Navbars/DefaultNavbar';
+import DefaultFooter from '../../pages/diethistory/examples/Footers/DefaultFooter';
+import FilledInfoCard from '../../pages/diethistory/examples/Cards/InfoCards/FilledInfoCard';
+
+import bgImage from "logo.png";
 
 function diethistory() {
 
@@ -49,23 +57,7 @@ function diethistory() {
 
  
     return (
-        <Container fluid>
-            <Title order={2}>Recommendation</Title>
-            <Space h="xl" />
-            <Grid>
-                {favouriteRecipes.map(recipe => (
-                    <Grid.Col md={6} lg={4} key={recipe.id}>
-                    <RecipeCard 
-                        id={recipe.id}
-                        title={recipe.title}
-                        image={recipe.image}
-                        readyInMinutes={recipe.readyInMinutes}
-                        servings={recipe.servings}
-                    />
-                    </Grid.Col>
-                ))}
-            </Grid>
-        </Container>
+        
         <>
         <DefaultNavbar
           routes={routes}
@@ -178,6 +170,23 @@ function diethistory() {
               </Grid>
             </Grid>
           </Container>
+          <Container fluid>
+            <Title order={2}>Recommendation</Title>
+            <Space h="xl" />
+            <Grid>
+                {favouriteRecipes.map(recipe => (
+                    <Grid.Col md={6} lg={4} key={recipe.id}>
+                    <RecipeCard 
+                        id={recipe.id}
+                        title={recipe.title}
+                        image={recipe.image}
+                        readyInMinutes={recipe.readyInMinutes}
+                        servings={recipe.servings}
+                    />
+                    </Grid.Col>
+                ))}
+            </Grid>
+        </Container>
           <Testimonials />
           <Download />
           <MKBox pt={18} pb={6}>
