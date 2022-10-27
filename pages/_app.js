@@ -42,7 +42,6 @@ function MyApp({ Component, pageProps }) {
     router.push('/search')
   } 
 
-
   return (
     <MantineProvider
       theme={{
@@ -100,7 +99,9 @@ function MyApp({ Component, pageProps }) {
 
               <Text>Application header</Text>
 
-              {router.pathname !== '/login' && (
+              {router.pathname === '/login' || router.pathname === '/register'
+              ? null 
+              : (
                   <Group>
                     <TextInput
                       icon={<IconSearch size={14} />}

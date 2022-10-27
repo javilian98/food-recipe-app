@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import Router , {useRouter}  from 'next/router';
-import { TextInput, PasswordInput, Checkbox, Button, Group, Box, Space, Title, Center, Text } from '@mantine/core';
+import { TextInput, PasswordInput, Checkbox, Button, Group, Box, Space, Title, Center, Text, Notification } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
 import axios from 'axios';
 import Link from 'next/link';
 import { useAccessTokenStore } from '../../stores/store';
 import { parseJwt } from '../../util/helper';
+import { IconCheck } from '@tabler/icons';
 
 function Login() {
     const router = useRouter()
@@ -82,7 +83,16 @@ function Login() {
 
     return (   
         <div className="login"> 
-            <Box sx={{ maxWidth: 300 }} mx="auto">  
+            <Box sx={{ maxWidth: 350 }} mx="auto">  
+                {router.query.success &&
+                    <Notification 
+                        icon={<IconCheck size={20} />} 
+                        color="teal" 
+                        title="Account successfully registered">
+                        Please login to your account
+                    </Notification>
+                }
+                <Space h={30} />
                 <Center>
                     <Title order={1}>Login</Title>
                 </Center>
@@ -112,6 +122,9 @@ function Login() {
                 <Center>
                     <Link href="/">
                         <Button variant="subtle">Back to home</Button>
+                    </Link>
+                    <Link href="/register">
+                        <Button variant="subtle">Register an account</Button>
                     </Link>
                 </Center>
             </Box>
