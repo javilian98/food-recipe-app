@@ -13,8 +13,10 @@ import MKSocialButton from '../../pages/diethistory/components/MKSocialButton';
 import DefaultNavbar from '../../pages/diethistory/examples/Navbars/DefaultNavbar';
 import DefaultFooter from '../../pages/diethistory/examples/Footers/DefaultFooter';
 import FilledInfoCard from '../../pages/diethistory/examples/Cards/InfoCards/FilledInfoCard';
+import Counters from '../Presentation/sections/Counters';
 
-import bgImage from "logo.png";
+import Card from "@mui/material/Card";
+import bgImage from '../diethistory/assets/images/bg-presentation.jpg';
 
 function diethistory() {
 
@@ -60,14 +62,7 @@ function diethistory() {
         
         <>
         <DefaultNavbar
-          routes={routes}
-          action={{
-            type: "external",
-            route: "https://www.creative-tim.com/product/material-kit-react",
-            label: "free download",
-            color: "info",
-          }}
-          sticky
+          
         />
         <MKBox
           minHeight="75vh"
@@ -120,11 +115,8 @@ function diethistory() {
           }}
         >
           <Counters />
-          <Information />
-          <DesignBlocks />
-          <Pages />
+         
           <Container sx={{ mt: 6 }}>
-            <BuiltByDevelopers />
           </Container>
           <Container>
             <Grid container spacing={3}>
@@ -187,8 +179,6 @@ function diethistory() {
                 ))}
             </Grid>
         </Container>
-          <Testimonials />
-          <Download />
           <MKBox pt={18} pb={6}>
             <Container>
               <Grid container spacing={3}>
@@ -243,7 +233,7 @@ function diethistory() {
           </MKBox>
         </Card>
         <MKBox pt={6} px={1} mt={6}>
-          <DefaultFooter content={footerRoutes} />
+         
         </MKBox>
       </>
     )
