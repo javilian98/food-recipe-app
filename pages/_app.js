@@ -42,6 +42,18 @@ function MyApp({ Component, pageProps }) {
     router.push('/search')
   } 
 
+  const handleHome = () => {
+    router.push('/')
+  } 
+
+  const handleLogIn = () => {
+    router.push('/login')
+  } 
+
+  const handleRegister = () => {
+    router.push('/register')
+  } 
+
   return (
     <MantineProvider
       theme={{
@@ -97,7 +109,10 @@ function MyApp({ Component, pageProps }) {
                 />
               </MediaQuery>
 
-              <Text>Application header</Text>
+              <img
+               style={{ width: 50, height: 50 }}
+               src="logo.png" alt="" 
+               onClick={handleHome}/>
 
               {router.pathname === '/login' || router.pathname === '/register'
               ? null 
@@ -119,6 +134,8 @@ function MyApp({ Component, pageProps }) {
               {/* Letters with xl radius */}
               
               <Group position="center">
+              <Button color="green" onClick={handleLogIn}>Log in</Button>
+              <Button color="green" onClick={handleRegister}>Register</Button>
                 {/* <Menu withArrow>
                   <Menu.Target>
                     <UserButton
