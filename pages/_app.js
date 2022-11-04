@@ -24,6 +24,7 @@ import UserButton from '../components/users/UserButton/UserButton';
 
 import { useSearchRecipeStore } from '../stores/store'
 import { IconSearch } from '@tabler/icons';
+import axios from "axios";
 
 import { Image } from '@mantine/core';
 
@@ -43,6 +44,14 @@ function MyApp({ Component, pageProps }) {
 
   const handleHome = () => {
     router.push('/')
+  } 
+
+  const handleLogIn = () => {
+    router.push('/login')
+  } 
+
+  const handleRegister = () => {
+    router.push('/register')
   } 
 
   return (
@@ -120,6 +129,8 @@ function MyApp({ Component, pageProps }) {
               {/* Letters with xl radius */}
               
               <Group position="center">
+              <Button color="green" onClick={handleLogIn}>Log in</Button>
+              <Button color="green" onClick={handleRegister}>Register</Button>
                 {/* <Menu withArrow>
                   <Menu.Target>
                     <UserButton
@@ -127,6 +138,8 @@ function MyApp({ Component, pageProps }) {
                   </Menu.Target>
                   ...Menu.Items
                 </Menu> */}
+
+                {/*need to implement: Show UserButton if logged in */}
                 <UserButton
                     />
               </Group>
