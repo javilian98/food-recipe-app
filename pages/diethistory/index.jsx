@@ -4,17 +4,20 @@ import React from 'react';
 import Card from 'react-bootstrap/Card';
 import CardGroup from 'react-bootstrap/CardGroup';
 import Container from 'react-bootstrap/Container';
+import { BackgroundImage, Center, Text, Box } from '@mantine/core';
+import placeholder from '../diethistory/image/1.jpeg';
+import hdImage from '../diethistory/image/1.jpeg';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useFavouriteRecipeStore } from '../../stores/store'
-// import Image from 'react-bootstrap/Image'
-import {
-  Text,
-  View,
-  StyleSheet,
-  Image,
-  Dimensions,
-  ImageBackground,
-} from 'react-native';
+import Image from 'react-bootstrap/Image'
+// import {
+//   Text,
+//   View,
+//   StyleSheet,
+//   Image,
+//   Dimensions,
+//   ImageBackground,
+// } from 'react-native';
 
 function diethistory() {
 
@@ -58,9 +61,12 @@ function diethistory() {
 
   return (
     <>
-      <Image src='https://pic.52112.com/2019/07/23/JPG-190723_395/uf3FUwOMpf_small.jpg' rounded='true'></Image>
-      <Container>
-      
+       <Box sx={{ maxWidth: 800 }} mx="auto">
+      <BackgroundImage
+        src="3.jpeg"
+        radius="sm"
+      >
+        <Center p="md">
         <CardGroup>
           <Card>
             <Card.Img variant="top" src="holder.js/100px160" />
@@ -104,7 +110,15 @@ function diethistory() {
             </Card.Footer>
           </Card>
         </CardGroup>
-      </Container>
+        </Center>
+      </BackgroundImage>
+    </Box>
+
+      {/* <Image src='https://pic.52112.com/2019/07/23/JPG-190723_395/uf3FUwOMpf_small.jpg' rounded='true'></Image> */}
+      {/* <Image src='1.jpeg' rounded='true'></Image> */}
+
+     
+      
     </>
   )
 }
