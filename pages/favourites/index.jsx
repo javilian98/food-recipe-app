@@ -48,6 +48,7 @@ function Favourites() {
  
     return (
         <Container fluid>
+            <Title>Ingredient: Beef</Title>
             <Title order={2}>Favourite Recipes</Title>
             <Space h="xl" />
             <Grid>
