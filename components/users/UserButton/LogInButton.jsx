@@ -50,7 +50,7 @@ function LogInButton() {
 
   return ( 
     <div>
-    <Button color="green" onClick={handleLogIn}>Log in</Button>
+    <Button color="green" onClick={handleLogIn}>Log in</Button> {" "}
     <Button color="green" onClick={handleRegister}>Register</Button>
     </div>
   );
