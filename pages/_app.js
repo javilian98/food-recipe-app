@@ -23,6 +23,9 @@ import {
 import { NotificationsProvider } from '@mantine/notifications';
 import NavbarLinks from '../layouts/Navbar/NavbarLinks';
 import UserButton from '../components/users/UserButton/UserButton';
+import LogInButton from '../components/users/UserButton/LogInButton';
+
+import {useAccessTokenStore} from '../stores/store';
 
 import { useSearchRecipeStore, useRecipeNutritionImageStore } from '../stores/store'
 import { IconSearch } from '@tabler/icons';
@@ -36,6 +39,8 @@ function MyApp({ Component, pageProps }) {
   const [searchInput, setSearchInput] = useState('')
   const setSearchKeyword = useSearchRecipeStore(state => state.setKeyword)
   const nutritionImageBase64 = useRecipeNutritionImageStore(state => state.nutritionImageBase64)
+
+  const tokenDetails = useAccessTokenStore(state => state.tokenDetails) 
 
   const handleSearchSubmit = () => {
     setSearchKeyword(searchInput)
@@ -53,6 +58,13 @@ function MyApp({ Component, pageProps }) {
   const handleRegister = () => {
     router.push('/register')
   } 
+
+  var loginButton;
+  if (tokenDetails!=null) {
+    loginButton = <UserButton />;
+  } else {
+    loginButton = <LogInButton />;
+  }
 
   return (
     <MantineProvider
@@ -134,8 +146,8 @@ function MyApp({ Component, pageProps }) {
               {/* Letters with xl radius */}
               
               <Group position="center">
-              <Button color="green" onClick={handleLogIn}>Log in</Button>
-              <Button color="green" onClick={handleRegister}>Register</Button>
+              {/* <Button color="green" onClick={handleLogIn}>Log in</Button>
+              <Button color="green" onClick={handleRegister}>Register</Button> */}
                 {/* <Menu withArrow>
                   <Menu.Target>
                     <UserButton
@@ -143,8 +155,9 @@ function MyApp({ Component, pageProps }) {
                   </Menu.Target>
                   ...Menu.Items
                 </Menu> */}
-                <UserButton
-                    />
+                {/* <UserButton
+                    /> */}
+                    {loginButton}
               </Group>
             </div>
           </Header>
