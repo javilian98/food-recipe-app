@@ -1,10 +1,11 @@
 import cookie from 'cookie'
+import { SERVER_URL } from '../../../constants/constants'
 
 export default async function refreshToken(req, res) {
     let { refresh_token }  = cookie.parse(req.headers.cookie)
     
     try {
-    const response = await fetch(`${process.env.SERVER_URL}/api/token/refresh`, {
+    const response = await fetch(`${SERVER_URL}/api/token/refresh`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

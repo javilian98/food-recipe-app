@@ -1,5 +1,6 @@
 import cookie from 'cookie'
 import axios from 'axios'
+import { SERVER_URL } from '../../../constants/constants'
 
 export default async function getuseringredients(req, res) {
     try {
@@ -11,7 +12,7 @@ export default async function getuseringredients(req, res) {
             }
         }
 
-        const response = await axios.get(`${process.env.SERVER_URL}/api/useringredients`, config)
+        const response = await axios.get(`${SERVER_URL}/api/useringredients`, config)
         const data = response.data
 
         console.log('user ingredients data: ', data)

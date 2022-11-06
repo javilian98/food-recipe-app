@@ -1,5 +1,6 @@
 import cookie from 'cookie'
 import axios from 'axios'
+import { SERVER_URL } from '../../../constants/constants'
 
 export default async function adduseringredient(req, res) {
     try {
@@ -12,7 +13,7 @@ export default async function adduseringredient(req, res) {
             }
         }
 
-        const response = await axios.post(`${process.env.SERVER_URL}/api/useringredients`, {
+        const response = await axios.post(`${SERVER_URL}/api/useringredients`, {
             name
         }, config)
 

@@ -1,5 +1,6 @@
 import cookie from 'cookie'
 import axios from 'axios'
+import { SERVER_URL } from '../../../constants/constants'
 
 export default async function deletefavouriterecipe(req, res) {
     try {
@@ -13,7 +14,7 @@ export default async function deletefavouriterecipe(req, res) {
             }
         }
 
-        const response = await axios.delete(`${process.env.SERVER_URL}/api/recipes/${req.body.recipeDataId}`, config)
+        const response = await axios.delete(`${SERVER_URL}/api/recipes/${req.body.recipeDataId}`, config)
 
         res.status(200).json({ status: 200, success_message: 'Removed from Favourites' })
 

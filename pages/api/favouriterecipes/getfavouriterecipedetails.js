@@ -2,6 +2,7 @@ import cookie from 'cookie'
 import axios from 'axios'
 import { API_URL, RECIPES } from '../../../constants/constants'
 import { fetchData } from '../../../util/helper'
+import { SERVER_URL } from '../../../constants/constants'
 
 export default async function getfavouriterecipedetails(req, res) {
     try {
@@ -13,7 +14,7 @@ export default async function getfavouriterecipedetails(req, res) {
             }
         }
 
-        const response = await axios.get(`${process.env.SERVER_URL}/api/recipes/${req.query.recipeDataId}`, config)
+        const response = await axios.get(`${SERVER_URL}/api/recipes/${req.query.recipeDataId}`, config)
         const { id, recipeDataId, info, instructions, extendedIngredients, nutrition } = response.data
         const recipeData = {
             id,

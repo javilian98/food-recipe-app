@@ -2,13 +2,14 @@ import { sign } from 'jsonwebtoken'
 import { serialize } from 'cookie'
 import axios from 'axios'
 import { useAccessTokenStore } from '../../../stores/store'
+import { SERVER_URL } from '../../../constants/constants'
 
 const secret = process.env.SECRET
 
 export default async function login(req, res) {
     const { email, password } = req.body
 
-    fetch(`${process.env.SERVER_URL}/api/auth/login`, {
+    fetch(`${SERVER_URL}/api/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
