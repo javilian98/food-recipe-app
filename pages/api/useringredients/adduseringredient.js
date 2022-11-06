@@ -12,7 +12,7 @@ export default async function adduseringredient(req, res) {
             }
         }
 
-        const response = await axios.post('http://localhost:8080/api/useringredients', {
+        const response = await axios.post(`${process.env.SERVER_URL}/api/useringredients`, {
             name
         }, config)
 

@@ -13,7 +13,7 @@ export default async function deletefavouriterecipe(req, res) {
             }
         }
 
-        const response = await axios.delete(`http://localhost:8080/api/recipes/${req.body.recipeDataId}`, config)
+        const response = await axios.delete(`${process.env.SERVER_URL}/api/recipes/${req.body.recipeDataId}`, config)
 
         res.status(200).json({ status: 200, success_message: 'Removed from Favourites' })
 

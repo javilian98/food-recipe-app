@@ -4,7 +4,7 @@ export default async function refreshToken(req, res) {
     let { refresh_token }  = cookie.parse(req.headers.cookie)
     
     try {
-    const response = await fetch('http://localhost:8080/api/token/refresh', {
+    const response = await fetch(`${process.env.SERVER_URL}/api/token/refresh`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

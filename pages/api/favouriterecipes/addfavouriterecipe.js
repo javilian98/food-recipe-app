@@ -12,7 +12,7 @@ export default async function addfavouriterecipe(req, res) {
             }
         }
 
-        const response = await axios.post('http://localhost:8080/api/recipes', {
+        const response = await axios.post(`${process.env.SERVER_URL}/api/recipes`, {
             recipeDataId,
             info,
             instructions,

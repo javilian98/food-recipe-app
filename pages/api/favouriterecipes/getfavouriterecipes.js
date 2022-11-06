@@ -11,7 +11,7 @@ export default async function getfavouriterecipes(req, res) {
             }
         }
 
-        const response = await axios.get('http://localhost:8080/api/recipes', config)
+        const response = await axios.get(`${process.env.SERVER_URL}/api/recipes`, config)
         const data = response.data
 
         console.log('data: ', data)

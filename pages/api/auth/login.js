@@ -8,7 +8,7 @@ const secret = process.env.SECRET
 export default async function login(req, res) {
     const { email, password } = req.body
 
-    fetch('http://localhost:8080/api/auth/login', {
+    fetch(`${process.env.SERVER_URL}/api/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

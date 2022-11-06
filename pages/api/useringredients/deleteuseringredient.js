@@ -13,7 +13,7 @@ export default async function deleteuseringredient(req, res) {
             }
         }
 
-        const response = await axios.delete(`http://localhost:8080/api/useringredients/${req.body.userIngredientId}`, config)
+        const response = await axios.delete(`${process.env.SERVER_URL}/api/useringredients/${req.body.userIngredientId}`, config)
 
         res.status(200).json({ status: 200, success_message: 'Removed from user ingredients' })
 
