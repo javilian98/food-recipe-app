@@ -6,6 +6,7 @@ import { IconAlarm, IconSoup, IconCircleMinus, IconCirclePlus, IconCheck, IconHe
 
 import { API_URL, RECIPES } from '../../constants/constants'
 import { fetchData } from '../../util/helper'
+import { CLIENT_URL } from '../../constants/constants';
 
 import { useFavouriteRecipeStore, useRecipeNutritionImageStore } from '../../stores/store'
 import axios from 'axios';
@@ -63,7 +64,7 @@ function Recipe() {
                     recipeDataId: router.query.id
                 }
             } 
-            const api = await axios.get(`http://localhost:3000/api/favouriterecipes/getfavouriterecipedetails`, config)
+            const api = await axios.get(`${CLIENT_URL}/api/favouriterecipes/getfavouriterecipedetails`, config)
             const data = await api.data
             const { recipeData, nutritionImageBase64 } = data
             console.log(data) 
@@ -114,7 +115,7 @@ function Recipe() {
             setToggleFavourite(false)
 
             console.log('rounter query id: ', router.query.id)
-            const response = await axios.delete('http://localhost:3000/api/favouriterecipes/deletefavouriterecipe', {
+            const response = await axios.delete(`${CLIENT_URL}/api/favouriterecipes/deletefavouriterecipe`, {
                 data: {
                     recipeDataId: Number(router.query.id)
                 }
@@ -150,7 +151,7 @@ function Recipe() {
 
             const { info, instructions, extendedIngredients, nutrition } = details
             
-            const response = await axios.post('http://localhost:3000/api/favouriterecipes/addfavouriterecipe', {
+            const response = await axios.post(`${CLIENT_URL}/api/favouriterecipes/addfavouriterecipe`, {
                 recipeDataId: router.query.id,
                 info: JSON.stringify(info),
                 instructions: JSON.stringify(instructions),

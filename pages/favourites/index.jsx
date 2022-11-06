@@ -6,6 +6,7 @@ import RecipeCard from '../../components/recipes/RecipeCard/RecipeCard'
 
 import { useFavouriteRecipeStore, useAccessTokenStore } from '../../stores/store'
 import { updateAccessToken } from '../../util/helper'
+import { CLIENT_URL } from '../../constants/constants';
 import axios from 'axios'
 
 function Favourites() {
@@ -42,7 +43,7 @@ function Favourites() {
             resetFavouriteRecipes()
             
             // fetch favourite recipes from backend server API
-            const response = await axios.get('http://localhost:3000/api/favouriterecipes/getfavouriterecipes')
+            const response = await axios.get(`${CLIENT_URL}/api/favouriterecipes/getfavouriterecipes`)
             const data = response.data
             console.log(data);
  
@@ -69,16 +70,6 @@ function Favourites() {
     //     console.log('newAccessToken: ', newAccessToken)
     // }
 
-    const userHandler = async () => {
-        try {
-        const response = await axios.get('http://localhost:3000/api/user')
-        const data = response
-
-        console.log(data)
-        } catch (error) {
-            console.log(error);
-        }
-    }
  
     return (
         <Container fluid>

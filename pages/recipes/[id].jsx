@@ -6,6 +6,7 @@ import { IconAlarm, IconSoup, IconCircleMinus, IconCirclePlus, IconCheck, IconHe
 
 import { API_URL, RECIPES } from '../../constants/constants'
 import { fetchData } from '../../util/helper'
+import { CLIENT_URL } from '../../constants/constants';
 
 import { useFavouriteRecipeStore, useRecipeNutritionImageStore } from '../../stores/store'
 import axios from 'axios';
@@ -31,34 +32,12 @@ function Recipe() {
 
     useEffect(() => { 
         getDetails()
-
-        // fetch(`https://api.spoonacular.com/recipes/662038/nutritionLabel.png?apiKey=${process.env.NEXT_PUBLIC_SPOONACULAR_API_SECRET_KEY}&showOptionalNutrients=true`)
-        //     .then(res => res.blob())
-        //     .then(imageBlob => {
-        //         var reader = new FileReader();
-        //         reader.readAsDataURL(imageBlob); 
-
-        //         console.log(reader)
-        //     })
     }, [router.query.id])  
 
-    // console.log(details)
-
-    // const { extendedIngredients } = details
-    // console.log(extendedIngredients)
-
     const getDetails = async () => {
-        // const foundRecipeInLocalStorage = favouriteRecipes.find(recipe => recipe.info.id.toString() === router.query.id) || null
- 
-        // if (foundRecipeInLocalStorage) {
-        //     console.log('foundRecipe: ', foundRecipeInLocalStorage)
-        //     setDetails(foundRecipeInLocalStorage) 
-        //     setToggleFavourite(true)
-        //     return  
-        // }   
- 
+
         try {
-            const api = await fetch('http://localhost:3000/api/recipedetails?' + new URLSearchParams({
+            const api = await fetch(`${CLIENT_URL}/api/recipedetails?` + new URLSearchParams({
                 recipeid: router.query.id
             }))
             const data = await api.json()
@@ -94,7 +73,7 @@ function Recipe() {
             setToggleFavourite(false)
 
             console.log('rounter query id: ', router.query.id)
-            const response = await axios.delete('http://localhost:3000/api/favouriterecipes/deletefavouriterecipe', {
+            const response = await axios.delete(`${CLIENT_URL}/api/favouriterecipes/deletefavouriterecipe`, {
                 data: {
                     recipeDataId: Number(router.query.id)
                 }
@@ -130,7 +109,7 @@ function Recipe() {
 
             const { info, instructions, extendedIngredients, nutrition } = details
             
-            const response = await axios.post('http://localhost:3000/api/favouriterecipes/addfavouriterecipe', {
+            const response = await axios.post(`${CLIENT_URL}/api/favouriterecipes/addfavouriterecipe`, {
                 recipeDataId: router.query.id,
                 info: JSON.stringify(info),
                 instructions: JSON.stringify(instructions),

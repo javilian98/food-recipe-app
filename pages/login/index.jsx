@@ -7,6 +7,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import { useAccessTokenStore } from '../../stores/store';
 import { parseJwt } from '../../util/helper';
+import { CLIENT_URL } from '../../constants/constants';
 import { IconCheck } from '@tabler/icons';
 
 function Login() {
@@ -60,7 +61,7 @@ function Login() {
 
         try {
             setFormErrorMsg('')
-            const response = await axios.post('http://localhost:3000/api/auth/login', {
+            const response = await axios.post(`${CLIENT_URL}/api/auth/login`, {
                 email: form.values.email,
                 password: form.values.password
             })

@@ -4,6 +4,7 @@ import { TextInput, PasswordInput, NumberInput, Select, Checkbox, Button, Group,
 import { useForm } from '@mantine/form';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { CLIENT_URL } from '../../constants/constants'
 
 function Register() {
 
@@ -70,7 +71,7 @@ function Register() {
     const handleSubmit = async () => {
         try {  
             const { firstName, lastName, email, password, age, sex, heightCM, weightKG } = form.values
-            const response = await axios.post('http://localhost:3000/api/auth/register', {
+            const response = await axios.post(`${CLIENT_URL}/api/auth/register`, {
                 firstName,
                 lastName,
                 email, 
@@ -206,107 +207,6 @@ function Register() {
             </Center>
         </div>
       );
-
-    // return (     
-    //     <div className="login">
-    //         <Box sx={{ maxWidth: 1000 }} mx="auto">   
-    //             <Center>
-    //                 <Title order={1}>Register Account</Title>
-    //             </Center>
-    //             <Space h={30} />
-    //             <Stepper active={active} breakpoint="sm">
-    //                 <Stepper.Step label="First step" description="Profile settings">
-    //                     <Box sx={{ maxWidth: 350 }} mx="auto">  
-    //                         <TextInput
-    //                             withAsterisk
-    //                             label="Email"
-    //                             placeholder="your@email.com"
-    //                             {...form.getInputProps('email')}  
-    //                         />
-    //                         <Space h={15} /> 
-    //                         <PasswordInput
-    //                             withAsterisk
-    //                             label="Password"
-    //                             {...form.getInputProps('password')}
-    //                         />
-    //                         <Space h={8} /> 
-    //                         <PasswordInput
-    //                             withAsterisk
-    //                             mt="sm"
-    //                             label="Confirm password"
-    //                             placeholder="Confirm password"
-    //                             {...form.getInputProps('confirmPassword')}
-    //                         />
-    //                     </Box>
-    //                 </Stepper.Step>
-
-    //                 <Stepper.Step label="Second step" description="Personal information">
-    //                 <TextInput label="Name" placeholder="Name" {...form.getInputProps('name')} />
-    //                 <TextInput mt="md" label="Email" placeholder="Email" {...form.getInputProps('email')} />
-    //                 </Stepper.Step>
-
-    //                 <Stepper.Step label="Final step" description="Social media">
-    //                 <TextInput label="Website" placeholder="Website" {...form.getInputProps('website')} />
-    //                 <TextInput
-    //                     mt="md"
-    //                     label="GitHub"
-    //                     placeholder="GitHub"
-    //                     {...form.getInputProps('github')}
-    //                 />
-    //                 </Stepper.Step>
-    //                 <Stepper.Completed>
-    //                 Completed! Form values:
-    //                 </Stepper.Completed>
-    //             </Stepper>
-
-    //             <Group position="right" mt="xl">
-    //                 <Box sx={{ maxWidth: 350 }} mx="auto">
-    //                     {active !== 0 && (
-    //                     <Button variant="default" onClick={prevStep}>
-    //                         Back
-    //                     </Button>
-    //                     )}
-    //                     {active !== 3 && <Button onClick={nextStep}>Next step</Button>}
-    //                 </Box>
-    //             </Group>
-    //             {/* <form onSubmit={form.onSubmit((values) => console.log(values))}>
-    //                 <TextInput
-    //                     withAsterisk
-    //                     label="Email"
-    //                     placeholder="your@email.com"
-    //                     {...form.getInputProps('email')}  
-    //                 />
-    //                 <Space h={15} /> 
-    //                 <PasswordInput
-    //                     withAsterisk
-    //                     label="Password"
-    //                     {...form.getInputProps('password')}
-    //                 />
-    //                 <Space h={8} /> 
-    //                 <PasswordInput
-    //                     withAsterisk
-    //                     mt="sm"
-    //                     label="Confirm password"
-    //                     placeholder="Confirm password"
-    //                     {...form.getInputProps('confirmPassword')}
-    //                 />
-
-    //                 <Group position="right" mt="md">
-    //                     <Button color="green" type="submit">Register</Button>
-    //                 </Group>
-    //             </form> */}
-    //             <Space h="xl" />
-    //             <Center>
-    //                 <Link href="/">
-    //                     <Button variant="subtle">Back to home</Button>
-    //                 </Link>
-    //                 <Link href="/login">
-    //                     <Button variant="subtle">Login</Button>
-    //                 </Link>
-    //             </Center>
-    //         </Box>
-    //     </div>
-    // )
 }
 
 export default Register

@@ -8,7 +8,7 @@ import { showNotification } from '@mantine/notifications';
 import { useAccessTokenStore, useUserIngredientsStore } from '../../stores/store'
 
 import { fetchData } from '../../util/helper'
-import { API_URL, RECIPES } from '../../constants/constants'
+import { API_URL, RECIPES, CLIENT_URL } from '../../constants/constants'
 
 import axios from 'axios';
 import RecipeCard from '../../components/recipes/RecipeCard/RecipeCard';
@@ -40,7 +40,7 @@ function UserProfile() {
   const getUserIngredients = async () => {
     try {
       resetUserIngredients()
-      const response = await axios.get('http://localhost:3000/api/useringredients/getuseringredients')
+      const response = await axios.get(`${CLIENT_URL}/api/useringredients/getuseringredients`)
       const data = response.data
       console.log(data);
 
@@ -59,7 +59,7 @@ function UserProfile() {
 
       console.log(textIngredient);
 
-      const response = await axios.post(`http://localhost:3000/api/useringredients/adduseringredient`, {
+      const response = await axios.post(`${CLIENT_URL}/api/useringredients/adduseringredient`, {
         name: textIngredient
       })
 
@@ -98,7 +98,7 @@ function UserProfile() {
     try {
       removeUserIngredient(id)
 
-      const response = await axios.delete('http://localhost:3000/api/useringredients/deleteuseringredient', {
+      const response = await axios.delete(`${CLIENT_URL}/api/useringredients/deleteuseringredient`, {
           data: {
             userIngredientId: id
           }

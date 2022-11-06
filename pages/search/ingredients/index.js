@@ -3,7 +3,7 @@ import { Stepper, Button, Group, Checkbox, Title, Space, Container, Grid } from 
 import { useForm } from '@mantine/form';
 
 import { fetchData } from '../../../util/helper'
-import { API_URL, RECIPES } from '../../../constants/constants'
+import { API_URL, RECIPES, CLIENT_URL } from '../../../constants/constants'
 import RecipeCard from '../../../components/recipes/RecipeCard/RecipeCard';
 import axios from 'axios';
 
@@ -62,45 +62,11 @@ function SearchByIngredients() {
   }, [])
 
   const fetchIngredients = async () => {
-    const response = await axios.get('http://localhost:3000/api/ingredients')
+    const response = await axios.get(`${CLIENT_URL}/api/ingredients`)
     const data = response.data
 
     setIngredients(data)
   }
-
- 
-//   const form = useForm({
-//     initialValues: {
-//       username: '',
-//       password: '',
-//       name: '',
-//       email: '',
-//       website: '',
-//       github: '',
-//     },
-
-//     validate: (values) => {
-//       if (active === 0) {
-//         return {
-//           username:
-//             values.username.trim().length < 6
-//               ? 'Username must include at least 6 characters'
-//               : null,
-//           password:
-//             values.password.length < 6 ? 'Password must include at least 6 characters' : null,
-//         };
-//       }
-
-//       if (active === 1) {
-//         return {
-//           name: values.name.trim().length < 2 ? 'Name must include at least 2 characters' : null,
-//           email: /^\S+@\S+$/.test(values.email) ? null : 'Invalid email',
-//         };
-//       }
-
-//       return {};
-//     },
-//   });
 
     const getRecipesByIngredients = async () => {
         const ingredientsSelected = [
