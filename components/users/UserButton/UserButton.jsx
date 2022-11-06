@@ -9,17 +9,25 @@ import { useAccessTokenStore } from '../../../stores/store';
 function UserButton() {
   const router = useRouter()
 
-  const tokenDetails = useAccessTokenStore(state => state.tokenDetails)
+  const setAccessToken = useAccessTokenStore(state => state.setAccessToken)
 
-  // const [userDetails, setUserDetails] = useState({})
+  const tokenDetails = useAccessTokenStore(state => state.tokenDetails)
+  const setTokenDetails = useAccessTokenStore(state => state.setTokenDetails)
+
   const userDetails = useAccessTokenStore(state => state.userDetails)
   const setUserDetails = useAccessTokenStore(state => state.setUserDetails)
+
+  useEffect(() => {
+    getUserDetails()
+  }, [tokenDetails])
 
   const logout = async () => {
     const response = await axios.post('http://localhost:3000/api/auth/logout')
 
     if (response.status === 200) {
-      setUserDetails('')
+      setAccessToken('')
+      setTokenDetails(undefined)
+      setUserDetails({})
       router.push('/login')
     }
   } 
@@ -33,24 +41,25 @@ function UserButton() {
         lastName,
         initials: firstName.charAt(0) + lastName.charAt(0)
       })
-
+      console.log('retrieved', userDetails.initials);
     } else {
       setUserDetails({})
+      console.log('fail to retrieve');
     }
   }
 
-  useEffect(() => {
-    getUserDetails()
-  }, [tokenDetails])
+  
+
+  console.log(tokenDetails)
 
   return ( 
     <Menu shadow="md" width={200}>
       <Menu.Target>
-        <Avatar color="cyan" radius="xl">{userDetails.initials}</Avatar>
+        <Avatar color="cyan" radius="xl" suppressHydrationWarning>{userDetails.initials}</Avatar>
       </Menu.Target>
  
       <Menu.Dropdown>
-        <Menu.Label>{userDetails.firstName} {userDetails.lastName}</Menu.Label>
+        <Menu.Label suppressHydrationWarning>{userDetails.firstName} {userDetails.lastName}</Menu.Label>
         <Menu.Item icon={<IconSettings size={14} />}><Link href="/userprofile">My Profile</Link></Menu.Item>
         <Menu.Item icon={<IconSettings size={14} />} onClick={logout}>Logout</Menu.Item>
         {/* <Menu.Item icon={<IconMessageCircle size={14} />}>Messages</Menu.Item>

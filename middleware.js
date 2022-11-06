@@ -5,7 +5,12 @@ export function middleware(req) {
 
     // console.log(verify)
 
-    if (!verify && req.nextUrl.pathname === '/favourites') {
+    if (
+        !verify && (
+            req.nextUrl.pathname === '/favourites'
+            || req.nextUrl.pathname === '/userprofile'
+        )
+    ) {
         return NextResponse.redirect('http://localhost:3000/login')
     }
 

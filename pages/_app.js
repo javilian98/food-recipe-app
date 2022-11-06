@@ -1,6 +1,7 @@
 import '../styles/globals.css'
 
 import { useState } from 'react';
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import {
   AppShell,
@@ -22,7 +23,8 @@ import {
 } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 import NavbarLinks from '../layouts/Navbar/NavbarLinks';
-import UserButton from '../components/users/UserButton/UserButton';
+// import UserButton from '../components/users/UserButton/UserButton';
+const UserButton = dynamic(() => import('../components/users/UserButton/UserButton'), { ssr: false }) //<- set SSr to false
 
 import { useSearchRecipeStore, useRecipeNutritionImageStore } from '../stores/store'
 import { IconSearch } from '@tabler/icons';

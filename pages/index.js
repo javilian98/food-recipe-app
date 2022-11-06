@@ -11,10 +11,7 @@ export default function Home() {
 
   const [featuredRecipes, setFeaturedRecipes] = useState([])
 
-  const accessToken  = useAccessTokenStore(state => state.accessToken)
-
   useEffect(() => {
-    console.log(process.env.NEXT_PUBLIC_SPOONACULAR_API_SECRET_KEY)
     getRandomRecipes()
   }, []) 
 
