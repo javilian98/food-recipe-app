@@ -85,7 +85,7 @@ function MyApp({ Component, pageProps }) {
         //   </Footer>
         // }
         header={
-          <Header height={70} p="xl" style={{ zIndex: 500 }}>
+          <Header height={70} p="xl" style={{ zIndex: 300 }}>
             <div style={{ display: 'flex', alignItems: 'center', height: '100%', justifyContent: 'space-between' }}>
               <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
                 <Burger

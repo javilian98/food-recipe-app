@@ -25,14 +25,23 @@ let accessTokenStore = set => ({
 
     tokenDetails: undefined,
     setTokenDetails: tokenDetails => set({ tokenDetails }),
+
+    userDetails: {},
+    setUserDetails: userDetails => set({ userDetails }),
 }) 
 accessTokenStore = devtools(accessTokenStore) 
 accessTokenStore = persist(accessTokenStore, { name: 'access_token' }) 
 export const useAccessTokenStore = create(accessTokenStore)
 
 
-
 export const useRecipeNutritionImageStore = create(set => ({
     nutritionImageBase64: '',
     setNutritionImageBase64: nutritionImageBase64 => set({ nutritionImageBase64 }) 
+}))
+
+export const useUserIngredientsStore = create(set => ({
+    userIngredients: [],
+    setUserIngredients: ingredient => set(state => ({ userIngredients: [...state.userIngredients, ingredient] })),
+    removeUserIngredient: id => set(state => ({ userIngredients: state.userIngredients.filter(ingredient => ingredient.id !== id) })),
+    resetUserIngredients: () => set(state => ({ userIngredients: [] }))
 }))

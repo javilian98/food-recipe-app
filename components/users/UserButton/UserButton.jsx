@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import Link from 'next/link';
 import { Menu, Button, Text, Avatar } from '@mantine/core';
 import { IconSettings, IconSearch, IconPhoto, IconMessageCircle, IconTrash, IconArrowsLeftRight } from '@tabler/icons';
 import axios from 'axios';
@@ -10,7 +11,9 @@ function UserButton() {
 
   const tokenDetails = useAccessTokenStore(state => state.tokenDetails)
 
-  const [userDetails, setUserDetails] = useState({})
+  // const [userDetails, setUserDetails] = useState({})
+  const userDetails = useAccessTokenStore(state => state.userDetails)
+  const setUserDetails = useAccessTokenStore(state => state.setUserDetails)
 
   const logout = async () => {
     const response = await axios.post('http://localhost:3000/api/auth/logout')
@@ -48,7 +51,7 @@ function UserButton() {
  
       <Menu.Dropdown>
         <Menu.Label>{userDetails.firstName} {userDetails.lastName}</Menu.Label>
-        <Menu.Item icon={<IconSettings size={14} />}>My Profile</Menu.Item>
+        <Menu.Item icon={<IconSettings size={14} />}><Link href="/userprofile">My Profile</Link></Menu.Item>
         <Menu.Item icon={<IconSettings size={14} />} onClick={logout}>Logout</Menu.Item>
         {/* <Menu.Item icon={<IconMessageCircle size={14} />}>Messages</Menu.Item>
         <Menu.Item icon={<IconPhoto size={14} />}>Gallery</Menu.Item>
