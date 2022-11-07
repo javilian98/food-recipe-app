@@ -32,7 +32,7 @@ import Link from 'next/link';
 import Search from '../components/search/Search';
 import SearchByIngredients from '../components/search/SearchByIngredients';
 import axios from 'axios';
-import { CLIENT_URL, SERVER_URL } from '../constants/constants';
+import { SERVER_URL } from '../constants/constants';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
@@ -60,7 +60,7 @@ function MyApp({ Component, pageProps }) {
         }
       } 
 
-      const response = await axios.get(`${CLIENT_URL}/api/useringredients/getuseringredients`, config)
+      const response = await axios.get(`${SERVER_URL}/api/useringredients`, config)
       const data = response.data
 
       console.log(data);
