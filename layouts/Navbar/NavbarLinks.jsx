@@ -2,7 +2,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { IconMeat, IconHeart, IconMessages, IconStars } from '@tabler/icons';
-import { ThemeIcon, UnstyledButton, Group, Text } from '@mantine/core'; 
+import { ThemeIcon, UnstyledButton, Group, Text, MediaQuery, Space } from '@mantine/core'; 
+// import Search from '../../components/search/Search';
 
 function NavbarLink({ icon, color, label, link }) {
     return (
@@ -42,7 +43,19 @@ function NavbarLink({ icon, color, label, link }) {
     { icon: <IconMessages size={20} />, color: 'violet', label: 'Diet History', link: '/' },
   ];
 
-export default function NavbarLinks() {
+export default function NavbarLinks({ Search, SearchByIngredients }) {
     const links = data.map((link) => <NavbarLink {...link} key={link.label} />);
-    return <div>{links}</div>;
+
+    return (
+      <div>
+        {links}
+        <div className="hide-search-mobile">
+          <div>
+          {Search}
+          </div>
+          <Space h={20} />
+          {SearchByIngredients}
+        </div>
+      </div>
+    );
 }

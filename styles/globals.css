@@ -20,3 +20,20 @@ a {
 /* @tailwind base;
 @tailwind components;
 @tailwind utilities;   */
+
+
+.hide-search-desktop {
+  display: flex;
+}
+.hide-search-mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .hide-search-desktop {
+    display: none;
+  }
+  .hide-search-mobile {
+    display: block;
+  }
+}

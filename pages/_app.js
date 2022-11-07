@@ -29,6 +29,8 @@ const UserButton = dynamic(() => import('../components/users/UserButton/UserButt
 import { useSearchRecipeStore, useRecipeNutritionImageStore } from '../stores/store'
 import { IconSearch } from '@tabler/icons';
 import Link from 'next/link';
+import Search from '../components/search/Search';
+import SearchByIngredients from '../components/search/SearchByIngredients';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
@@ -65,7 +67,23 @@ function MyApp({ Component, pageProps }) {
             : (
               <Navbar p="md" hiddenBreakpoint="sm" hidden={!opened} width={{ sm: 200, lg: 300 }}>
                 <Navbar.Section grow mt="xs">
-                  <NavbarLinks />
+                  <NavbarLinks 
+                    Search={
+                      <Search 
+                        isOpened={opened}
+                        searchInput={searchInput}
+                        setSearchInput={setSearchInput}
+                        handleSearchSubmit={handleSearchSubmit}
+                        link="/search/ingredients"
+                      />
+                    } 
+                    SearchByIngredients={
+                      <SearchByIngredients 
+                        isOpened={opened}
+                        link="/search/ingredients" 
+                      />
+                    }
+                  />
                 </Navbar.Section>
               </Navbar>
             )
@@ -104,17 +122,28 @@ function MyApp({ Component, pageProps }) {
               {router.pathname === '/login' || router.pathname === '/register'
               ? null 
               : (
-                  <Group>
-                    <TextInput
-                      icon={<IconSearch size={14} />}
-                      placeholder="Search recipes"
-                      value={searchInput}
-                      onChange={e => setSearchInput(e.target.value)}
+                  // <Group>
+                  //   <TextInput
+                  //     icon={<IconSearch size={14} />}
+                  //     placeholder="Search recipes"
+                  //     value={searchInput}
+                  //     onChange={e => setSearchInput(e.target.value)}
+                  //   />
+                  //   <Button color="green" onClick={handleSearchSubmit}>Search</Button>
+                  //   <Link href="/search/ingredients">
+                  //     <Button color="blue">Search By Ingredients</Button>
+                  //   </Link>
+                  // </Group>
+                  <Group className='hide-search-desktop'>
+                    <Search 
+                      searchInput={searchInput}
+                      setSearchInput={setSearchInput}
+                      handleSearchSubmit={handleSearchSubmit}
+                      link="/search/ingredients"
                     />
-                    <Button color="green" onClick={handleSearchSubmit}>Search</Button>
-                    <Link href="/search/ingredients">
-                      <Button color="blue">Search By Ingredients</Button>
-                    </Link>
+                    <SearchByIngredients 
+                      link="/search/ingredients" 
+                    />
                   </Group>
               )}
 

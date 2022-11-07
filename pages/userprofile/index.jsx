@@ -1,7 +1,8 @@
 import { Grid, Avatar, Center, Card, Box, Group, Text, Space, Title, Button, Modal, Tabs, TextInput, ThemeIcon } from '@mantine/core'
 import { useForm } from '@mantine/form';
-import { IconForms, IconPhoto, IconTrash } from '@tabler/icons';
-import { useState, useEffect } from 'react'
+import { IconCircleCheck, IconCircleDashed, IconForms, IconPhoto, IconTrash } from '@tabler/icons';
+import { useState, useEffect, useRef } from 'react'
+import * as mobilenet from "@tensorflow-models/mobilenet";
 
 import { showNotification } from '@mantine/notifications';
 
@@ -12,6 +13,7 @@ import { API_URL, RECIPES, CLIENT_URL } from '../../constants/constants'
 
 import axios from 'axios';
 import RecipeCard from '../../components/recipes/RecipeCard/RecipeCard';
+import { image } from '@tensorflow/tfjs-core';
 
 function UserProfile() {
   const userDetails = useAccessTokenStore(state => state.userDetails)
@@ -23,9 +25,22 @@ function UserProfile() {
   const [opened, setOpened] = useState(false);
   const [recipes, setRecipes] = useState([])
 
+  const [isModelLoading, setIsModelLoading] = useState(false)
+  const [model, setModel] = useState(null)
+  const [imageURL, setImageURL] = useState(null);
+  const [imageResults, setImageResults] = useState([])
+  const [selectedImageResult, setSelectedImageResult] = useState('')
+
+  const imageRef = useRef()
+
   useEffect(() => {
     getUserIngredients()
+    loadModel()
   }, [])
+
+  useEffect(() => {
+    setImageResults([])
+  }, [imageURL])
 
   const form = useForm({
     initialValues: {
@@ -36,6 +51,19 @@ function UserProfile() {
       textIngredient: (value) => (value.length < 2 ? 'Ingredient name is too short' : null),
     },
   })
+
+  const loadModel = async () => {
+    setIsModelLoading(true)
+    try {
+      const model = await mobilenet.load()
+      setModel(model)
+      setIsModelLoading(false)
+      console.log('model loaded');
+    } catch (error) {
+      console.log(error);
+      setIsModelLoading(false)
+    }
+  }
 
   const getUserIngredients = async () => {
     try {
@@ -55,18 +83,27 @@ function UserProfile() {
     try {
       console.log('submitted');
 
-      const { textIngredient } = form.values
+      let ingredient;
 
-      console.log(textIngredient);
+      if (selectedImageResult === '') {
+        setSelectedImageResult('')
+        ingredient = form.values.textIngredient
+      }
+      else if (form.values.textIngredient === '') {
+        form.reset()
+        ingredient = selectedImageResult
+      }
+
+      console.log('ingredient: ', ingredient);
 
       const response = await axios.post(`${CLIENT_URL}/api/useringredients/adduseringredient`, {
-        name: textIngredient
+        name: ingredient
       })
 
       const { status, success_message } = response.data
 
       if (status === 200) {
-        setUserIngredients({ id: userIngredients.length, name: textIngredient })
+        setUserIngredients({ id: userIngredients.length, name: ingredient })
 
         form.reset()
         showNotification({
@@ -154,6 +191,32 @@ function UserProfile() {
     }
   }
 
+  if (isModelLoading) {
+    return <Text>Model loading...</Text>
+  }
+
+  const uploadImage = e => {
+    const { files } = e.target
+    if (files.length > 0) {
+      const url = URL.createObjectURL(files[0])
+      setImageURL(url)
+    } else {
+      setImageURL(null)
+    }
+  }
+
+  const identifyImage = async () => {
+    const results = await model.classify(imageRef.current)
+    setImageResults(results)
+  }
+
+  const handleImageResult = resultName => {
+    setSelectedImageResult('')
+    setSelectedImageResult(resultName)
+  }
+
+  // console.log(selectedImageResult);
+
   return (
     <>
       <Modal
@@ -165,8 +228,8 @@ function UserProfile() {
       >
         <Tabs defaultValue="text">
           <Tabs.List>
-            <Tabs.Tab value="text" icon={<IconForms size={30} />}>Text</Tabs.Tab>
-            <Tabs.Tab value="camera" icon={<IconPhoto size={30} />}>Camera</Tabs.Tab>
+            <Tabs.Tab value="text" icon={<IconForms size={30} />} onClick={() => setSelectedImageResult('')}>Text</Tabs.Tab>
+            <Tabs.Tab value="camera" icon={<IconPhoto size={30} />} onClick={() => form.reset()}>Camera</Tabs.Tab>
           </Tabs.List>
 
           <Tabs.Panel value="text" pt="md">
@@ -178,7 +241,55 @@ function UserProfile() {
           </Tabs.Panel>
 
           <Tabs.Panel value="camera" pt="md">
-            Gallery tab content
+            <div className="input-holder" style={{ marginBottom: '20px' }}>
+              <input type='file' accept='image/*' capture='camera' className='uploadInput' onChange={uploadImage} />
+            </div>
+            <div className="main-content">
+              <div className="image-holder" style={{ marginBottom: '20px' }}>
+                {imageURL && <img style={{ maxWidth: '400px' }} src={imageURL} alt="Upload Preview" crossOrigin='anonymous' ref={imageRef} />}
+              </div>
+              {imageResults.length > 0 &&
+                <Box style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                  {imageResults.map((result, index) => {
+                    return (
+                      <Card 
+                        key={result.className}
+                        shadow="sm" 
+                        p="" 
+                        radius="md" 
+                        withBorder
+                        onClick={() => handleImageResult(result.className)}
+                        style={{ 
+                          cursor: 'pointer',
+                          backgroundColor: selectedImageResult === result.className ? '#BFFFC9' : 'white' 
+                        }}
+                      >
+                        <Text size="md">
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
+                            {/* <ThemeIcon color="green"> */}
+                              {selectedImageResult === result.className
+                                ? <IconCircleCheck color="green" />
+                                : <IconCircleDashed color="green" />
+                              }
+                            {/* </ThemeIcon> */}
+                            <span style={{ textTransform: 'capitalize' }}>{result.className}</span>
+                            {index === 0 && <>(Best Guess)</>}
+                          </div>
+                        </Text>
+                      </Card>
+                    )
+                  })
+
+                  }
+                </Box>
+              }
+            </div>
+            {imageURL && imageResults.length === 0 && <Button onClick={identifyImage}>Identify Ingredient</Button>}
+            {imageResults.length > 0 &&
+              selectedImageResult !== ''
+                ? <Button color="green" onClick={addUserIngredient}>Add Ingredient</Button>
+                : <Button color="green" disabled>Add Ingredient</Button>
+            }
           </Tabs.Panel>
         </Tabs>
       </Modal>
