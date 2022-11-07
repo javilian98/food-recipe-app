@@ -100,7 +100,7 @@ function SearchByIngredients() {
         //   if (form.validate().hasErrors) {
         //     return current;
         //   }
-            return current < 3 ? current + 1 : current;
+            return current < 2 ? current + 1 : current;
         });
     } 
 
@@ -200,12 +200,12 @@ function SearchByIngredients() {
                 </Grid>
         </Stepper.Step>
 
-        <Stepper.Step label="Start Cooking" description="">
+        {/* <Stepper.Step label="Start Cooking" description="">
           
-        </Stepper.Step>
-        <Stepper.Completed>
+        </Stepper.Step> */}
+        {/* <Stepper.Completed>
           Completed!
-        </Stepper.Completed>
+        </Stepper.Completed> */}
       </Stepper>
 
       <Group position="right" mt="xl">
@@ -214,7 +214,7 @@ function SearchByIngredients() {
             Back
           </Button>
         )}
-        {active !== 3 && <Button onClick={nextStep}>Next step</Button>}
+        {active !== 1 && <Button onClick={nextStep}>Next step</Button>}
       </Group>
       </Container>
     </>
