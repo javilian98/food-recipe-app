@@ -4,14 +4,21 @@
 const nextConfig = {
   reactStrictMode: false,
   swcMinify: true,
-  async rewrites() {
+  //avoiding CORS error, more here: https://vercel.com/support/articles/how-to-enable-cors
+  async headers() {
     return [
       {
-        source: '/api/:path*',
-        destination: `ec2-13-229-125-36.ap-southeast-1.compute.amazonaws.com:8080/:path*`,
-      },
+        // matching all API routes
+        source: "/api/:path*",
+        headers: [
+          { key: "Access-Control-Allow-Credentials", value: "true" },
+          { key: "Access-Control-Allow-Origin", value: "*" },
+          { key: "Access-Control-Allow-Methods", value: "GET,OPTIONS,PATCH,DELETE,POST,PUT" },
+          { key: "Access-Control-Allow-Headers", value: "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version" },
+        ]
+      }
     ]
-  },
+},
 }
 
 module.exports = nextConfig
