@@ -5,6 +5,7 @@ import { IconSettings, IconSearch, IconPhoto, IconMessageCircle, IconTrash, Icon
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useAccessTokenStore } from '../../../stores/store';
+import { CLIENT_URL } from '../../../constants/constants';
 
 function UserButton() {
   const router = useRouter()
@@ -22,7 +23,7 @@ function UserButton() {
   }, [tokenDetails])
 
   const logout = async () => {
-    const response = await axios.post('http://localhost:3000/api/auth/logout')
+    const response = await axios.post(`${CLIENT_URL}/api/auth/logout`)
 
     if (response.status === 200) {
       setAccessToken('')
