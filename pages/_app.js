@@ -32,7 +32,7 @@ import Link from 'next/link';
 import Search from '../components/search/Search';
 import SearchByIngredients from '../components/search/SearchByIngredients';
 import axios from 'axios';
-import { SERVER_URL } from '../constants/constants';
+import { CLIENT_URL, SERVER_URL } from '../constants/constants';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
