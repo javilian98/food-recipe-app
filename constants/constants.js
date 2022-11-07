@@ -1,7 +1,7 @@
-export const CLIENT_URL = 'https://food-recipe-app-chi.vercel.app'
+// export const CLIENT_URL = 'https://food-recipe-app-chi.vercel.app'
 export const SERVER_URL = 'http://ec2-13-229-125-36.ap-southeast-1.compute.amazonaws.com:8081'
 
-// export const CLIENT_URL = 'http://localhost:3000'
+export const CLIENT_URL = 'http://localhost:3000'
 // export const SERVER_URL = 'ec2-13-229-125-36.ap-southeast-1.compute.amazonaws.com:8080'
 
 export const API_URL = 'https://api.spoonacular.com'

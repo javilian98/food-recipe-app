@@ -1,7 +1,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { IconMeat, IconHeart, IconMessages, IconStars } from '@tabler/icons';
+import { IconMeat, IconHeart, IconMessages, IconStars, IconApple } from '@tabler/icons';
 import { ThemeIcon, UnstyledButton, Group, Text, MediaQuery, Space } from '@mantine/core'; 
 // import Search from '../../components/search/Search';
 
@@ -40,7 +40,7 @@ function NavbarLink({ icon, color, label, link }) {
     { icon: <IconStars size={20} />, color: 'blue', label: 'Featured', link: '/' },
     // { icon: <IconMeat size={20} />, color: 'green', label: 'My Recipes' },
     { icon: <IconHeart size={20} />, color: 'red', label: 'Favourites', link: '/favourites' },
-    { icon: <IconMessages size={20} />, color: 'violet', label: 'Diet History', link: '/' },
+    { icon: <IconApple size={20} />, color: 'green', label: 'Healthier Choices', link: '/recommendedrecipes' },
   ];
 
 export default function NavbarLinks({ Search, SearchByIngredients }) {

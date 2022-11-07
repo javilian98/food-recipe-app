@@ -34,6 +34,8 @@ import SearchByIngredients from '../components/search/SearchByIngredients';
 import axios from 'axios';
 import { SERVER_URL } from '../constants/constants';
 
+// import logo from './logo.png'
+
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
   const theme = useMantineTheme();
@@ -119,7 +121,7 @@ function MyApp({ Component, pageProps }) {
                   <Image src={nutritionImageBase64} alt="nutrition image" />
                 </Aside>  
               </MediaQuery> 
-            )
+            ) 
             : null 
         } 
         // footer={
@@ -140,7 +142,13 @@ function MyApp({ Component, pageProps }) {
                 />
               </MediaQuery>
 
-              <Text>Application header</Text>
+              {/* <Text>Application header</Text> */}
+              <Link href="/">
+                <img
+                  style={{ width: 50, height: 50, cursor: 'pointer' }}
+                  src="logo.png" alt="" 
+                />
+               </Link>
 
               {router.pathname === '/login' || router.pathname === '/register'
               ? null 
