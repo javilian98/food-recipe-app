@@ -1,4 +1,4 @@
-import { CLIENT_URL } from './constants/constants'
+// import { CLIENT_URL } from './constants/constants'
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -8,7 +8,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: `${CLIENT_URL}/:path*`,
+        destination: `https://food-recipe-app-chi.vercel.app/:path*`,
       },
     ]
   },
