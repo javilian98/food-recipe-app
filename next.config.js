@@ -8,7 +8,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: `https://food-recipe-app-chi.vercel.app/:path*`,
+        destination: `ec2-13-229-125-36.ap-southeast-1.compute.amazonaws.com:8080/:path*`,
       },
     ]
   },
