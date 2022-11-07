@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import {
@@ -31,6 +31,8 @@ import { IconSearch } from '@tabler/icons';
 import Link from 'next/link';
 import Search from '../components/search/Search';
 import SearchByIngredients from '../components/search/SearchByIngredients';
+import axios from 'axios';
+import { SERVER_URL } from '../constants/constants';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
@@ -45,6 +47,21 @@ function MyApp({ Component, pageProps }) {
     setSearchKeyword(searchInput)
     router.push('/search')
   } 
+
+  useEffect(() => {
+    testServerAPI()
+  }, [])
+
+  const testServerAPI = async () => {
+    try {
+      const response = await axios.get(`${SERVER_URL}/api/useringredients`)
+      const data = response.data
+
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <MantineProvider
