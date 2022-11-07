@@ -12,6 +12,7 @@ import { useFavouriteRecipeStore } from '../../stores/store'
 import Image from 'react-bootstrap/Image'
 
 import RecipeCard from '../../components/recipes/RecipeCard/RecipeCard';
+import axios from 'axios';
 
 // import {
 //   Text,
@@ -39,6 +40,21 @@ function diethistory() {
       readyInMinutes: 45,
       servings: 10
   }])
+
+  useEffect(() => {
+      getDeficitNutrients()
+  }, [])
+
+  const getDeficitNutrients = async () => {
+    try {
+        const response = await axios.get('http://localhost:3000/api/nutrient/getdeficitnutrients')
+        const data = response.data
+
+        console.log('data: ', data);
+    } catch (error) {
+        console.log(error);
+    }
+  }
 
   // const [favouriteRecipes, setFavouriteRecipes] = useState([])
 
