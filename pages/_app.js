@@ -56,9 +56,9 @@ function MyApp({ Component, pageProps }) {
     try {
       const config = {
         headers: {
-            'Authorization': `Bearer ${access_token}`
+            'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huYXBwbGVzZWVkQGV4YW1wbGUuY29tIiwiZmlyc3ROYW1lIjoiSm9obiIsImxhc3ROYW1lIjoiQXBwbGVzZWVkIiwicm9sZXMiOlsiUk9MRV9BRE1JTiIsIlJPTEVfVVNFUiJdLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAvYXBpL2F1dGgvbG9naW4iLCJpZCI6MSwiZXhwIjoxNjY3OTExMDg4fQ.ejaNyZSpp0Q3JUC_NavHESfoCJMVYIEcp8WcNkMeCJA`
         }
-      }
+      } 
 
       const response = await axios.get(`${SERVER_URL}/api/useringredients`, config)
       const data = response.data
