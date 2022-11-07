@@ -54,7 +54,13 @@ function MyApp({ Component, pageProps }) {
 
   const testServerAPI = async () => {
     try {
-      const response = await axios.get(`${SERVER_URL}/api/useringredients`)
+      const config = {
+        headers: {
+            'Authorization': `Bearer ${access_token}`
+        }
+      }
+
+      const response = await axios.get(`${SERVER_URL}/api/useringredients`, config)
       const data = response.data
 
       console.log(data);
