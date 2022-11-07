@@ -60,7 +60,7 @@ function MyApp({ Component, pageProps }) {
         }
       } 
 
-      const response = await axios.get(`${SERVER_URL}/api/useringredients`, config)
+      const response = await axios.get(`${CLIENT_URL}/api/useringredients/getuseringredients`, config)
       const data = response.data
 
       console.log(data);
